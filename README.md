@@ -16,20 +16,14 @@ Dependencies: shiny, popbio, tidyr, cowplot, magrittr, reshape2, knitr, ggridges
 
 To install in R first you must install the devtools package. You can do this from CRAN. Invoke R and then type
 
-```{r} 
-install.packages("devtools")
-```
+`install.packages("devtools")`
 Load the devtools package.
 
-```{r} 
-library(devtools)
-```
+`library(devtools)`
 
 Then
 
-```{r} 
-install_github("pcross-usgs/CWDsims")
-```
+`install_github("pcross-usgs/CWDsims")`
 
 ### Who do I talk to? ###
 
