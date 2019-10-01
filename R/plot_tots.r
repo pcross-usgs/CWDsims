@@ -6,7 +6,7 @@
 #' @import ggplot2
 #' @import dplyr
 #' @importFrom magrittr %>%
-#' @importFrom forcats fct_reorder fctrecode
+#' @importFrom forcats fct_reorder fct_recode
 #'
 #' @export
 
