@@ -4,7 +4,7 @@ R package to run chronic wasting disease models and a shiny app
 
 This is a repository with R code for an interactive Shiny application of CWD disease models. Currently there are deterministic and stochastic models that are intended to project out scenarios for a 5 to 10 year window over which we assume that the management and vital rates are kept constant. The models are sex and age structured with direct and indirect transmission. 
 
-### Webpage for the shiny apps###  
+### Webpage for the shiny app ###
 
 Currently available online at: 
 
