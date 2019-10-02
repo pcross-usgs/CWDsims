@@ -9,6 +9,7 @@
 #' @importFrom tidyr gather
 #' @importFrom magrittr %>% %$%
 #' @importFrom stats rbeta
+#' @importFrom ggridges geom_density_ridges theme_ridges
 #' @import ggplot2
 #'
 #' @export

@@ -9,7 +9,7 @@
 #' @return a density plot of time to death.
 #'
 #' @import ggplot2
-#' @import ggridges
+#' @importFrom ggridges theme_ridges
 #' @importFrom stats rgamma
 #'
 #' @export

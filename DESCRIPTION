@@ -1,6 +1,6 @@
 Package: CWDsims
 Type: Package
-Title: Shiny application to simulation chronic wasting disease scenarios
+Title: CWDsims: An R package for simulating chronic wasting disease scenarios
 Version: 0.1.0
 Authors@R: c(
     person("Paul", "Cross", role = c("aut","cre"),
@@ -9,31 +9,32 @@ Authors@R: c(
     person("Emily", "Almberg", role = c("aut"),
     email = "ealmberg@mt.gov"))
 Maintainer: Paul Cross <pcross@usgs.gov>
-Description: Collections of functions to run an interactive Shiny application 
-   of CWD disease models. Currently there are deterministic and stochastic 
+Description: Collections of functions to run an interactive Shiny application
+   of CWD disease models. Currently there are deterministic and stochastic
    models that are intended to project out scenarios for a 5 to 10 year window.
-   The models are sex and age structured with direct and indirect transmission. 
+   The models are sex and age structured with direct and indirect transmission.
 License: CC0
 Copyright: This software is in the public domain because it contains materials
     that originally came from the United States Geological Survey, an agency of
-    the United States Department of Interior. 
+    the United States Department of Interior.
 Depends:
-    R (>= 3.6), 
+    R (>= 3.6),
     shiny
 Imports:
     reshape2,
     popbio,
     magrittr,
-    tidyverse, 
+    tidyverse,
     cowplot,
     ggridges,
     knitr,
-    markdown, 
-    shinydashboard, 
+    markdown,
+    shinydashboard,
     hexSticker,
-    tidyr, 
+    tidyr,
     ggplot2,
     dplyr,
+    plyr,
     stringr,
     forcats,
     stats
@@ -41,5 +42,6 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
-Suggests: 
+Suggests:
     rmarkdown
+    
