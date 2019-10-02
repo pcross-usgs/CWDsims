@@ -11,10 +11,14 @@
 #' @import ggplot2
 #' @importFrom ggridges theme_ridges
 #' @importFrom stats rgamma
-#'
+#' @examples
+#' plot_ttd(p = 0.043)
+#' 
 #' @export
 
 plot_ttd <- function(p){
+  if(missing(p)==TRUE) warning("missing p parameter")
+  
   #time to death: ttd
   tmp <- data.frame(years.to.death = rgamma(1000, 10, p)/12)
 

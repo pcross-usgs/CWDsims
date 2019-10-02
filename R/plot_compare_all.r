@@ -18,8 +18,9 @@
 #'
 #' @export
 
-plot_compare_all <- function(outa, outb, ...){
-
+plot_compare_all <- function(outa, outb){
+  if(missing(outa)==TRUE) warning("missing scenario a data to plot")
+  if(missing(outb)==TRUE) warning("missing scenario b data to plot")  
   outcount <- list(outa$counts, outb$counts)
   outcount <- melt(outcount, id = c("age", "month", "population", "category",
                                     "year", "sex", "disease", "sim")) %>%
