@@ -232,7 +232,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="disease-transmission" class="section level3">
 <h3>Disease transmission</h3>
-<p>The models allow for both direct (individual to individual) and indirect (<em>i.e.</em> environmental) transmission of the pathogen. The probability of direct transmission is <span class="math inline">\(S(1-\exp \left \frac{\beta I}{N^{\theta}}\right\)</span>, where <span class="math inline">\(\beta\)</span> is the transmission coefficient, <span class="math inline">\(I\)</span> and <span class="math inline">\(N\)</span> are the number of infectious individuals and the total number of individuals. <span class="math inline">\(\theta\)</span> determines how disease transmission is a function of the population size. When <span class="math inline">\(\theta = 0\)</span> disease transmission is a function of the number of infected individuals. When <span class="math inline">\(\theta = 1\)</span> disease transmission is a function of the prevalence (<em>i.e.</em> frequency dependent transmission).</p>
+<p>The models allow for both direct (individual to individual) and indirect (<em>i.e.</em> environmental) transmission of the pathogen. The probability of direct transmission is <span class="math inline">\(S \left( 1-e^{\left(\frac{\beta I}{N^{\theta}}\right)} \right)\)</span>, where <span class="math inline">\(\beta\)</span> is the transmission coefficient, <span class="math inline">\(I\)</span> and <span class="math inline">\(N\)</span> are the number of infectious individuals and the total number of individuals. <span class="math inline">\(\theta\)</span> determines how disease transmission is a function of the population size. When <span class="math inline">\(\theta = 0\)</span> disease transmission is a function of the number of infected individuals. When <span class="math inline">\(\theta = 1\)</span> disease transmission is a function of the prevalence (<em>i.e.</em> frequency dependent transmission).</p>
 </div>
 <div id="disease-induced-mortality" class="section level3">
 <h3>Disease induced mortality</h3>
@@ -282,18 +282,20 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>The models assume that males may be more likely to become infected than females. In the model functions <span class="math inline">\(\beta_f\)</span> and <span class="math inline">\(\beta_m\)</span> are independent parameters. However, in the shiny app the user inputs <span class="math inline">\(\gamma\)</span>, whereby <span class="math inline">\(\beta_m = \beta_f\gamma\)</span> and if females and males are equally likely to become infected then <span class="math inline">\(\gamma=1\)</span>.</p>
 <p>Finally, the relative hunting risk is the ratio of the probability of an infected vs. uninfected individuals being harvested. When the relative risk is greater than one, infected individuals are more likely likely to be harvested relative to the background prevalence, which may be due to the behavior of infected individuals or management strategies that target hot-spots of infection. The parameters in the stochastic model are the same with the exception of the number of simulations to be run.</p>
 <p><em>Table 1. Parameters included in the models</em></p>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="17%"></col>
-<col width="23%"></col>
-<col width="10%"></col>
-<col width="47%"></col>
+<col width="15%"></col>
+<col width="20%"></col>
+<col width="8%"></col>
+<col width="14%"></col>
+<col width="41%"></col>
 </colgroup>
 <thead>
 <tr class="header">
-<th>Table 1.</th>
+<th></th>
 <th>Parameter</th>
 <th>Symbol</th>
+<th>Code name</th>
 <th>Comments</th>
 </tr>
 </thead>
@@ -302,12 +304,14 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td>State variables</td>
 <td>Susceptible</td>
 <td><span class="math inline">\(S_{i,a}\)</span></td>
+<td>St.f, St.m</td>
 <td><span class="math inline">\(i\)</span> = sex, <span class="math inline">\(a\)</span> = age</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>Infectious</td>
 <td><span class="math inline">\(I_{i,a, j}\)</span></td>
+<td>It.f, It.m</td>
 <td><span class="math inline">\(j\)</span> = infectious sub-category from 1 to 10</td>
 </tr>
 <tr class="odd">
@@ -315,72 +319,119 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td></td>
 <td></td>
 <td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td>Vital rates</td>
-<td>natural mortality</td>
+<td>natural survival</td>
 <td><span class="math inline">\(\delta_{i,a}\)</span></td>
-<td>assumed to be the same for &gt;2 years old within each sex category</td>
+<td>fawn.an.sur, juv.an.sur, ad.an.f.sur, ad.an.m.sur</td>
+<td>entered as annual proportions and later converted to monthly</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>reproduction</td>
 <td><span class="math inline">\(\alpha_{a&gt;1}\)</span></td>
-<td>Fawns are assumed not to reproduce</td>
+<td>fawn.repro, juv.repro, ad.repro</td>
+<td>may be greater than one to account for twins</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>hunting mortality</td>
 <td><span class="math inline">\(\kappa_{i,a}\)</span></td>
+<td>hunt.mort.fawn, hunt.mort.juv.f, hunt.mort.juv.m, hunt.mort.ad.f, hunt.mort.ad.m</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>disease mortality</td>
 <td><span class="math inline">\(\rho\)</span></td>
+<td>p</td>
 <td>dictates the rate of movement among infectious sub-categories</td>
 </tr>
 <tr class="even">
 <td></td>
+<td>relative risk</td>
+<td><span class="math inline">\(RR\)</span></td>
+<td>rel.risk</td>
+<td>increase in hunting mortality associated with being CWD positive</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Transmission</td>
 <td>envi. transmission</td>
 <td><span class="math inline">\(\epsilon\)</span></td>
-<td>probability from 0 to 1</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>transmission parameter</td>
-<td><span class="math inline">\(\beta_f\)</span></td>
-<td>baseline female transmission</td>
+<td>envi.foi</td>
+<td>annual probability from 0 to 1</td>
 </tr>
 <tr class="odd">
+<td></td>
+<td>transmission coefficient</td>
+<td><span class="math inline">\(\beta_{i}\)</span></td>
+<td>beta.f, beta.m</td>
+<td>direct transmission</td>
+</tr>
+<tr class="even">
 <td></td>
 <td>male scaling</td>
 <td><span class="math inline">\(\gamma\)</span></td>
-<td>male transmission = <span class="math inline">\(\beta_m = \beta_f \gamma\)</span></td>
-</tr>
-<tr class="even">
 <td></td>
-<td>mixing parameter</td>
-<td><span class="math inline">\(\theta\)</span></td>
-<td><span class="math inline">\(\theta = 1\)</span> is frequency dependent transmission, <span class="math inline">\(\theta = 0\)</span> is density dependent transmission</td>
+<td>male transmission = <span class="math inline">\(\beta_m = \beta_f \gamma\)</span></td>
 </tr>
 <tr class="odd">
 <td></td>
+<td>mixing parameter</td>
+<td><span class="math inline">\(\theta\)</span></td>
+<td>theta</td>
+<td><span class="math inline">\(\theta = 1\)</span> is frequency dependent transmission, <span class="math inline">\(\theta = 0\)</span> is density dependent transmission</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Stochasticity</td>
 <td>vital rate variation</td>
 <td><span class="math inline">\(\sigma^2\)</span></td>
-<td>variance for the survival rates</td>
+<td>repro.var, fawn.sur.var, sur.var, hunt.var</td>
+<td>variance for the survival, hunting and reproduction rates</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Intitial conditions</td>
+<td>prevalence</td>
+<td></td>
+<td>ini.fawn.prev, ini.juv.prev, ini.ad.f.prev, ini.ad.m.prev</td>
+<td>prevalence at the start of the simulation.</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>population size</td>
+<td></td>
+<td>n0</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td># of years</td>
+<td></td>
+<td>n.years</td>
+<td># of years to run the simulation</td>
 </tr>
 </tbody>
 </table>

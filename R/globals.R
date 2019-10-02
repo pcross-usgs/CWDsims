@@ -8,4 +8,5 @@ utils::globalVariables(c(
   "ini.juv.prev","juv.an.sur", "juv.repro", "lo", "m_adult", "m_fawn", "month",
   "n.age.cats", "n.years", "n0", "nat.p", "population", "prev",
   "prevalence", "rel.risk", "repro.var", "scenario", "sex", "sex.age", "sim",
-  "sur.var", "theta", "year", "years.to.death"))
+  "sur.var", "theta", "year", "years.to.death", 'CWD', "category", "no", "p",
+  "parameter", "percent", "stoch.params", "total", "value", "yes"))

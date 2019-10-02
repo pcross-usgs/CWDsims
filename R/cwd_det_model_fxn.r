@@ -1,17 +1,37 @@
 #' CWD deterministic model function
 #'
-#' Deterministic monthly age and sex structured model constant
-#'  environmental transmission, dynamic direct transmission
-#' @param params A list of parameters
+#' Deterministic monthly age and sex structured model with constant
+#'  environmental transmission and dynamic direct transmission
+#'  
+#' @param params A list with the following parameters included: 
+#' fawn.an.sur, juv.an.sur, ad.an.f.sur, ad.an.m.sur, fawn.repro, 
+#' juv.repro, ad.repro, hunt.mort.fawn, hunt.mort.juv.f, hunt.mort.juv.m,
+#' hunt.mort.ad.f, hunt.mort.ad.m, ini.fawn.prev,
+#' ini.juv.prev, ini.ad.f.prev,  ini.ad.m.prev,
+#' n.age.cats, p, env.foi, beta.f, beta.m,
+#' theta, n0, n.years = 10, rel.risk
 #'
-#' @return A list with 2 dataframes: counts-the # of individuals in S, I and age
-#' categories over time. deaths--how individuals died over time.
-#' (hunting, natural or disease)
+#' @return A list with 2 dataframes: 1. counts of the # of individuals in the 
+#' susceptible and infectious categories by over time. 2. deaths--how 
+#' individuals died over time (hunting, natural or disease). 
 #'
 #' @importFrom popbio stable.stage
-#'
+#' @importFrom dplyr rename mutate
+#' @importFrom reshape2 melt
+#' @examples 
+#' params <- list(fawn.an.sur = 0.6, juv.an.sur = 0.8, ad.an.f.sur = 0.95, 
+#' ad.an.m.sur = 0.9, fawn.repro = 0, juv.repro = 0.6, ad.repro = 1, 
+#' hunt.mort.fawn = 0.01, hunt.mort.juv.f = 0.1, hunt.mort.juv.m = 0.1,
+#' hunt.mort.ad.f = 0.2, hunt.mort.ad.m = 0.2, ini.fawn.prev = 0.02,
+#' ini.juv.prev = 0.03, ini.ad.f.prev = 0.04,  ini.ad.m.prev = 0.04,
+#' n.age.cats = 12,  p = 0.43, env.foi = 0,  beta.f = 0.15,  beta.m = 0.15,
+#' theta = 1, n0 = 2000, n.years = 10, rel.risk = 1.0)
+#' 
+#' out <- cwd_det_model(params)
+#' 
+#' plot_tots(out$counts)
+#' 
 #' @export
-
 
 cwd_det_model <- function(params) {
   # write the list objects to the local environment
