@@ -7,7 +7,9 @@
 #' @param var variance
 #'
 #' @return A list of alpha and beta values
-#'
+#' @examples 
+#' est_beta_params(mu = 0.9, var = 0.005)
+#' 
 #' @export
 
 est_beta_params <- function(mu, var) {
