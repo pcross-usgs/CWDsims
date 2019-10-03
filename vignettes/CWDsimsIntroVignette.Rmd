@@ -32,7 +32,7 @@ In order to launch the interactive Shiny application on your local machine run t
 
 ```{r shinyapp, echo=TRUE, eval=FALSE}
 library(CWDsims)
-launchCWDapp()
+launchCWDapp("CWDapp")
 ```
 
 Some users may be interested in storing output associated with the different models so that more detailed analyses and comparisons can be done. Below is a quick workflow for how to use some of the functions in 'CWDsims'.
@@ -62,14 +62,14 @@ For plotting purposes we sub-sample the entire monthly time series to include on
 
 Code was written using R version 3.6.1 (R Foundation for Statistical Computing, Vienna, AT; www.R-project.org) and the Shiny package version 1.3.2 (Chang et al. 2017). The main other packages used were:
 
-* reshape2: version 1.4.3
-* popbio: version 2.4.4
-* magrittr: version 1.5
-* tidyverse: version 1.2.1
-* cowplot: version 1.0.0
-* ggridges: version 0.5.1
-* knitr: version 1.2.5
-* shinydashboard: version 0.7.1
+* reshape2
+* popbio
+* magrittr
+* tidyverse
+* cowplot
+* ggridges
+* knitr
+* shinydashboard
 
 All of the source code is available at https://github.com/pcross-usgs/CWD-shiny.
 

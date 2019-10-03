@@ -6,15 +6,25 @@
 #' The models are sex and age structured with direct and indirect transmission. 
 #' 
 #' @section Model functions:
-#' cwd_det_model_fxn runs the deterministic CWD model 
-#' cwd_stoch_model_fxn runs the stochastic CWD model
+#' cwd_det_model runs the deterministic CWD model 
+#'  
+#' cwd_stoch_model runs the stochastic CWD model  
+#' 
+#' cwd_det_model_wiw similar to cwd_det_model, but allows for different male-male
+#' male-female, and female-male transmission rates.  
+#' 
+#' cwd_stoch_model_wiw similar to cwd_stoch_model, but allows for different male-male
+#' male-female, and female-male transmission rates.  
+#' 
 #' cwd_stoch_wrapper runs the stochastic CWD model multiple times for the same
 #'   parameter set
-#' launchCWDapp launches the Shiny application.   
+#' 
+#' launchCWDapp launches the Shiny application.     
 #' 
 #' @section Helper functions: 
 #' est_beta_params converts from a mean and variance to the shape and scale 
-#' parameters of the Beta distribution 
+#' parameters of the Beta distribution  
+#' 
 #' allocate_deaths randomly allocates deaths among the 10 infectious 
 #' subcategories
 #' 

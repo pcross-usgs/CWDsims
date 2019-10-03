@@ -67,6 +67,17 @@ install_github("pcross-usgs/CWDsims", build_vignettes = TRUE)
 ```
 Apple users may need to first install xQuartz to avoid a sys.font error. 
 
+For a brief introduction to the package look at the CWDsims introduction vignette.
+```r
+vignette(package = "CWDsims") # all vignettes available
+vignette("CWDsimsIntroVignette") # load the introduction
+```
+For a list of the available functions: 
+
+```r
+?CWDsims
+```
+
 ### Disclaimer ###
 
 This software is in the public domain because it contains materials that originally came from the U.S. Geological Survey, an agency of the United States Department of Interior. For more information, see the [official USGS copyright policy](https://www2.usgs.gov/visual-id/credit_usgs.html#copyright)
