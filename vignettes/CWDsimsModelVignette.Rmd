@@ -40,7 +40,11 @@ variable from one year to the next.
 
 ### Disease transmission
 
-The models allow for both direct (individual to individual) and indirect (*i.e.* environmental) transmission of the pathogen. The probability of direct transmission is $S \left( 1-e^{\left(\frac{\beta I}{N^{\theta}}\right)} \right)$, where $\beta$ is the transmission coefficient, $I$ and $N$ are the number of infectious individuals and the total number of individuals. $\theta$ determines how disease transmission is a function of the population size. When $\theta = 0$ disease transmission is a function of the number of infected individuals. When $\theta = 1$ disease transmission is a function of the prevalence (*i.e.* frequency dependent transmission).
+The models allow for both direct (individual to individual) and indirect (*i.e.* environmental) transmission of the pathogen. The probability of direct transmission is generally of the form: $S \left( 1-e^{\left(\frac{\beta I}{N^{\theta}}\right)} \right)$, where $\beta$ is the transmission coefficient, $I$ and $N$ are the number of infectious individuals and the total number of individuals. $\theta$ determines how disease transmission is a function of the population size. When $\theta = 0$ disease transmission is a function of the number of infected individuals. When $\theta = 1$ disease transmission is a function of the prevalence (*i.e.* frequency dependent transmission). This general transmission model is modified to be sex specific in two ways. For the cwd_det_model and cwd_stoch_model functions males and females are assumed to become infected at different rates for a given level of infection in the population. This is accomplished by making $\beta$ sex-specific whereby $\beta_{males} = \beta_{females}\gamma$ and the male infection probability becomes $S_{m} \left( 1-e^{\left(\frac{\beta_m I}{N^{\theta}}\right)} \right)$. For the cwd_det_model_wiw and cwd_stoch_model_wiw functions there is a separate transmission rate within males, within females, from males to females, and from females to males. Here "wiw" is short for who-infects-who. The infection probability then for females is: 
+
+$$S_{f} \left( 1 - e^{\frac{\beta_{ff} I_f + \beta_{mf} I_m}{N^{\theta}}} \right)$$
+
+where $\beta_{ff}$ is the female-to-female transmission coefficient, $\beta_{mf}$ is the male to female transmission rate. 
 
 ### Disease induced mortality
 
@@ -68,8 +72,6 @@ Indirect environmental transmission is the annual probability of being infected 
 
 While the CWD model functions use $\beta$, in the shiny apps we ask the user to input the direct $R_0$ per year, which we define as the expected number of individuals to be infected by an infected individual in a completely susceptible population in one year. This is because $\theta$ has a strong effect on the overall transmission rate, such that a small increase in $\theta$ would require the large decrease $\beta$ to result in a similar prevalence over time. Based on $\theta$ and the per year direct $R_0$ the shiny app then calculates the appropriate $\beta$ value. Note that direct $R_0$ *per year* is not the same as the typical $R_0$ which is based on the entire duration of the infectious period, which may be several years. We used this per year $R_0$ because the traditional $R_0$ is a function of the other user-inputs hunting and natural mortality. The direct per year $R_0$ may be less than one and CWD may still increase in the population if individuals are likely to survive with the disease for many years. Also note that the environmental transmission component is not included in that user-input of the direct $R_0$.
 
-The models assume that males may be more likely to become infected than females. In the model functions $\beta_f$ and $\beta_m$ are independent parameters. However, in the shiny app the user inputs $\gamma$, whereby $\beta_m = \beta_f\gamma$ and if females and males are equally likely to become infected then $\gamma=1$.
-
 Finally, the relative hunting risk is the ratio of the probability of an infected vs. uninfected individuals being harvested. When the relative risk is greater than one, infected individuals are more likely likely to be harvested relative to the background prevalence, which may be due to the behavior of infected individuals or management strategies that target hot-spots of infection. The parameters in the stochastic model are the same with the exception of the number of simulations to be run.
 
 *Table 1. Parameters included in the models*
@@ -88,6 +90,10 @@ Finally, the relative hunting risk is the ratio of the probability of an infecte
 |Transmission    | environmental transmission| $\epsilon$ | env.foi = 0 | annual probability from 0 to 1 |
 |                | transmission coefficient | $\beta_{i}$ | beta.f = 0.05, beta.m = 0.1 | direct transmission |
 |                | relative male infection  | $\gamma$ | 2 | male transmission = $\beta_m = \beta_f \gamma$|
+|                | female to female transmission  | $\beta_{ff}$ | beta.ff = 0.05 | used in "wiw" models |
+|                | male to female transmission  | $\beta_{mf}$ | beta.mf |used in "wiw" models |
+|                | female to male transmission  | $\beta_{fm}$ | beta.fm |used in "wiw" models |
+|                | male to male transmission  | $\beta_{mm}$ | beta.fm | used in "wiw" models |
 |                | mixing parameter  | $\theta$ | theta = 1 | $\theta = 1$ is frequency dependent transmission, $\theta = 0$ is density dependent transmission. Can be intermediate. |
 | |  | |  | |
 |Stochasticity   | vital rate variation  | $\sigma^2$ |repro.var = 0.005, fawn.sur.var = 0.005, sur.var = 0.005, hunt.var = 0.005| variance for the survival, hunting and reproduction rates |

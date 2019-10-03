@@ -1,14 +1,15 @@
   
 ## Decision-Support Tool for CWD Management
 
-This application is a decision-support tool for natural resource managers interested in investigating different scenarios associated with chronic wasting disease (CWD). This tool allows the user to enter parameters for deer or elk vital rates, hunting mortality, and disease transmission and the model will plot the total number of individuals, prevalence, age and sex distribution, and how many deaths were natural, hunting or CWD-related. The user can tailor the model to their species and region of interest by modifying the parameters and starting conditions.   
+This application is a decision-support tool for natural resource managers interested in investigating different scenarios associated with chronic wasting disease (CWD). This tool allows the user to enter parameters for deer or elk vital rates, hunting mortality, and disease transmission and the model will plot the total number of individuals, prevalence, age and sex distribution, and how many deaths were natural, hunting or CWD-related. The user can tailor the model to their species and region of interest by modifying the parameters and starting conditions.  
+
+This application uses the "who-infects-who" transmission models that allows for different male-to-female, female-to-male and male-to-male transmission rates.  
 
 ### Model tabs
 
 There are four other pages in this application that can be accessed via the tabs above. The deterministic model, as the name implies, includes no stochasticity. Parameters can be entered and changed using the sliders on the left hand side of the screen and any time a parameter is changed the model will automatically re-run and plot the new results. The stochastic model has the same structure as the deterministic model but includes both environmental and demographic stochasticity. The stochastic model will not automatically re-run every time the parameters are changed. Instead the user must press the "run simulation" button to run the model. Finally there are two comparison tabs that allow for a side-by-side comparison of two different scenarios. The user must press the "run simulation" button for each scenario. Note that the default parameters are initially identical between the two scenarios and need to be changed for the comparison plots to be useful.  
 
 ### User inputs  
-
 
 *Table 1. Parameters included in the models*
 
@@ -24,8 +25,12 @@ There are four other pages in this application that can be accessed via the tabs
 | | hunting relative risk | $RR$ | rel.risk = 1 | increase in hunting mortality associated with being CWD positive |
 | |  | |  | |
 |Transmission    | environmental transmission| $\epsilon$ | env.foi = 0 | annual probability from 0 to 1 |
-|                | transmission coefficient | $\beta_{i}$ | beta.f = 0.05, beta.m = 0.1 | direct transmission |
-|                | relative male infection  | $\gamma$ | 2 | male transmission = $\beta_m = \beta_f \gamma$|
+|                | female to female transmission  | $\beta_{ff}$ | beta.ff = 0.05 | used in "wiw" models |
+|                | male to female transmission  | $\beta_{mf}$ | beta.mf |$\beta_{mf} = \beta_{ff}\gamma_{mf}$ |
+|                | female to male transmission  | $\beta_{fm}$ | beta.fm |$\beta_{fm} = \beta_{ff}\gamma_{fm}$  |
+|                | male to male transmission  | $\beta_{mm}$ | beta.fm | $\beta_{mm} = \beta_{ff}\gamma_{mm}$  |
+|                | scaling parameters  | $\gamma_{ij}$ | gamma.mf, gamma.fm, gamma.mm | |
+
 |                | mixing parameter  | $\theta$ | theta = 1 | $\theta = 1$ is frequency dependent transmission, $\theta = 0$ is density dependent transmission. Can be intermediate. |
 | |  | |  | |
 |Stochasticity   | vital rate variation  | $\sigma^2$ |repro.var = 0.005, fawn.sur.var = 0.005, sur.var = 0.005, hunt.var = 0.005| variance for the survival, hunting and reproduction rates |
@@ -46,7 +51,11 @@ Indirect transmission is the annual probability of being infected from the envir
 
 While the underlying CWD model functions use $\beta$, in this shiny application we ask the user to input the direct $R_0$ per year, which we define as the expected number of individuals to be infected by an infected individual in a completely susceptible population in one year. This is because $\theta$ has a strong effect on the overall transmission rate, such that a small increase in $\theta$ would require the large decrease $\beta$ to result in a similar prevalence over time. Based on $\theta$ and the per year direct $R_0$ the shiny app then calculates the appropriate $\beta$ value to pass to the model simulation. Note that direct $R_0$ *per year* is not the same as the typical $R_0$ which is based on the entire duration of the infectious period, which may be several years. We used this per year $R_0$ because the traditional $R_0$ is a function of the other user-inputs hunting and natural mortality. The direct per year $R_0$ may be less than one and CWD may still increase in the population if individuals are likely to survive with the disease for many years. Also note that the environmental transmission component is not included in that user-input of the direct $R_0$. Based on these inputs the shiny app calculates $\beta$ for the simulation. 
 
-The model allows for males and females to have differing susceptibility to becoming infected. The user inputs the relative male infections rate, $\gamma$, and $\beta_m = \beta_f\gamma$, so that if $\gamma=1$ then females and males are equally likely to become infected. 
+There is a separate transmission rate within males, within females, from males to females, and from females to males. Here "wiw" is short for who-infects-who. The infection probability then for females is: 
+
+$$S_{f} \left( 1 - e^{\frac{\beta_{ff} I_f + \beta_{mf} I_m}{N^{\theta}}} \right)$$
+
+where $\beta_{ff}$ is the female-to-female transmission coefficient, $\beta_{mf}$ is the male to female transmission rate. 
 
 A constant probability of disease induced mortality per time step results in a negative binomial distribution of time until death, whereby most individuals die of disease very quickly and a few survive for a very long time. We used a box-car modeling approach to create a bell-shaped distibution of time until disease induced death where most individuals are likely to survive for a year but few are likely to survive past five. In the box-car approach the infected category is divided into a number of identical sub-categories that an individual must pass through prior to disease-induced mortality occurring. We chose 10 sub-categories. The rate of movement from sub category 1 to 10 then determines the time until death as all individuals die once they leave the 10th category. A probability or proportion of 0.43 moving makes the time to disease-induced death about two years. The user can look at how this index, *p*, of disease mortality is related to time until death in the Plots/Parameters tab. 
 

@@ -22,6 +22,33 @@ Follow `@USGS_R` on Twitter for updates on USGS R packages:
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/USGS_R.svg?style=social&label=Follow%20USGS_R)](https://twitter.com/USGS_R)
 
+### Installation ###
+
+Install from GitHub using the `devtools` packages:
+
+```r
+# install devtools if you don't have it already (otherwise skip next line)
+install.packages("devtools")
+
+# load the library
+library(devtools)
+
+# install "CWDsims" from github
+install_github("pcross-usgs/CWDsims", build_vignettes = TRUE)
+```
+Apple users may need to first install xQuartz to avoid a sys.font error.  
+
+For a brief introduction to the package look at the CWDsims introduction vignette.  
+
+```r
+vignette(package = "CWDsims") # all vignettes available
+vignette("CWDsimsIntroVignette") # load the introduction
+```
+For a list of the available functions: 
+
+```r
+?CWDsims
+```
 ### Citing CWDsims ###
 
 ``` r
@@ -32,7 +59,7 @@ citation(package = "CWDsims")
 ># 
 >#   Cross, P.C. and E.S. Almberg. 2019. CWDsims: 
 >#   An R package for simulating chronic wasting
->#   disease scenarios, doi:XXXXX/XXXXX
+>#   disease scenarios, doi:10.5066/P948SF4Q
 ># 
 ># A BibTeX entry for LaTeX users is
 ># 
@@ -47,35 +74,6 @@ citation(package = "CWDsims")
 >#     year = {2019},
 >#     url = {https://github.com/pcross-usgs/CWDsims/issues},
 >#   }
-```
-
-### Installation ###
-
-To install the dataRetrieval package, you must be using R 3.0 or greater and install devtools. 
-
-Install from GitHub using the `devtools` packages:
-
-```r
-# install devtools if you don't have it already (otherwise skip next line)
-install.packages("devtools")
-
-# load the library
-library(devtools)
-
-# install "CWDsims" from github
-install_github("pcross-usgs/CWDsims", build_vignettes = TRUE)
-```
-Apple users may need to first install xQuartz to avoid a sys.font error. 
-
-For a brief introduction to the package look at the CWDsims introduction vignette.
-```r
-vignette(package = "CWDsims") # all vignettes available
-vignette("CWDsimsIntroVignette") # load the introduction
-```
-For a list of the available functions: 
-
-```r
-?CWDsims
 ```
 
 ### Disclaimer ###

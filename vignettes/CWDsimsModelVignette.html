@@ -223,7 +223,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <div id="model-structure" class="section level2">
 <h2>Model structure</h2>
-<p>There are two primary simulation models currently available in <code>CWDsims</code> that are deterministic and stochastic versions of one another. Both models are based on a discrete monthly timestep that begins in the month of May. The models assume that all births occur in June and all hunting occurs in November. The models track sex and ages of individuals in susceptible (<span class="math inline">\(S\)</span>) and infectious (<span class="math inline">\(I\)</span>) categories to allow for hunting strategies that may target different sex and age groups, and may be preferential to infectious individuals.</p>
+<p>There are four primary simulation models currently available in <code>CWDsims</code> that are deterministic and stochastic versions of one another. All models are based on a discrete monthly timestep that begins in the month of May. The models assume that all births occur in June and all hunting occurs in November. The models track sex and ages of individuals in susceptible (<span class="math inline">\(S\)</span>) and infectious (<span class="math inline">\(I\)</span>) categories to allow for hunting strategies that may target different sex and age groups, and may be preferential to infectious individuals.</p>
+<p>Two of the models (cwd_det_model, cwd_stoch_model) assume that males may be more/less likely than females to become infected from any other individual. The shiny application “CWDapp” runs these models interactively. The other two models (cwd_det_model_wiw, cwd_stoch_model_wiw) allows for differential transmission among males, females, males to females and females to males. The “wiw” is short for who-infects-who. The shiny application “CWDapp_wiw” runs these models interactively.</p>
 <p>The order of operations in the models is as follows: aging, reproduction, natural mortality, hunting mortality, disease mortality, and disease transmission. We assume that hunting mortality is conditional on first surviving through the natural mortality that occurs in the month of November. Similarly, all disease-induced mortality occurs after natural mortality. Since the timestep of the model is monthly only a small portion of the population is likely to die or be infected per month, thus the ordering events is is unlikely to be a significant issue. Biologically, different forms of mortality are often correlated (e.g., reducing hunting mortality may increase natural mortality due to density dependence and limited resources). However, the models assume that all input parameters are independent of one another. This simplifies user inputs and creates a what-you-input-is-what-you-get property whereby the input of, say, survival rate is constant and does not change over time. Related to this issue the models assume there is no density dependence in any of the survival or reproduction rates. As a result, host population size will increase or decrease exponentially. However, the intent of the model is to be useful over time spans of five to ten years.</p>
 <p>To initiate the models, we first calculate the stable stage distribution using a Leslie matrix population model and the user-provided reproduction, natural survival and hunting rates.</p>
 <div id="stochasticity" class="section level3">
@@ -232,7 +233,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="disease-transmission" class="section level3">
 <h3>Disease transmission</h3>
-<p>The models allow for both direct (individual to individual) and indirect (<em>i.e.</em> environmental) transmission of the pathogen. The probability of direct transmission is <span class="math inline">\(S \left( 1-e^{\left(\frac{\beta I}{N^{\theta}}\right)} \right)\)</span>, where <span class="math inline">\(\beta\)</span> is the transmission coefficient, <span class="math inline">\(I\)</span> and <span class="math inline">\(N\)</span> are the number of infectious individuals and the total number of individuals. <span class="math inline">\(\theta\)</span> determines how disease transmission is a function of the population size. When <span class="math inline">\(\theta = 0\)</span> disease transmission is a function of the number of infected individuals. When <span class="math inline">\(\theta = 1\)</span> disease transmission is a function of the prevalence (<em>i.e.</em> frequency dependent transmission).</p>
+<p>The models allow for both direct (individual to individual) and indirect (<em>i.e.</em> environmental) transmission of the pathogen. The probability of direct transmission is generally of the form: <span class="math inline">\(S \left( 1-e^{\left(\frac{\beta I}{N^{\theta}}\right)} \right)\)</span>, where <span class="math inline">\(\beta\)</span> is the transmission coefficient, <span class="math inline">\(I\)</span> and <span class="math inline">\(N\)</span> are the number of infectious individuals and the total number of individuals. <span class="math inline">\(\theta\)</span> determines how disease transmission is a function of the population size. When <span class="math inline">\(\theta = 0\)</span> disease transmission is a function of the number of infected individuals. When <span class="math inline">\(\theta = 1\)</span> disease transmission is a function of the prevalence (<em>i.e.</em> frequency dependent transmission). This general transmission model is modified to be sex specific in two ways. For the cwd_det_model and cwd_stoch_model functions males and females are assumed to become infected at different rates for a given level of infection in the population. This is accomplished by making <span class="math inline">\(\beta\)</span> sex-specific whereby <span class="math inline">\(\beta_{males} = \beta_{females}\gamma\)</span> and the male infection probability becomes <span class="math inline">\(S_{m} \left( 1-e^{\left(\frac{\beta_m I}{N^{\theta}}\right)} \right)\)</span>. For the cwd_det_model_wiw and cwd_stoch_model_wiw functions there is a separate transmission rate within males, within females, from males to females, and from females to males. Here “wiw” is short for who-infects-who. The infection probability then for females is:</p>
+<p><span class="math display">\[S_{f} \left( 1 - e^{\frac{\beta_{ff} I_f + \beta_{mf} I_m}{N^{\theta}}} \right)\]</span></p>
+<p>where <span class="math inline">\(\beta_{ff}\)</span> is the female-to-female transmission coefficient, <span class="math inline">\(\beta_{mf}\)</span> is the male to female transmission rate.</p>
 </div>
 <div id="disease-induced-mortality" class="section level3">
 <h3>Disease induced mortality</h3>
@@ -279,7 +282,6 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>All survival rates are entered as annual probabilities or proportions depending on whether the model is deterministic or stochastic. Reproductive rates are entered as the number of total offspring per female per year, which can exceed 1 to account for the possibility of twins.</p>
 <p>Indirect environmental transmission is the annual probability of being infected from the environment, which we currently assume to be constant for the duration of the simulation.</p>
 <p>While the CWD model functions use <span class="math inline">\(\beta\)</span>, in the shiny apps we ask the user to input the direct <span class="math inline">\(R_0\)</span> per year, which we define as the expected number of individuals to be infected by an infected individual in a completely susceptible population in one year. This is because <span class="math inline">\(\theta\)</span> has a strong effect on the overall transmission rate, such that a small increase in <span class="math inline">\(\theta\)</span> would require the large decrease <span class="math inline">\(\beta\)</span> to result in a similar prevalence over time. Based on <span class="math inline">\(\theta\)</span> and the per year direct <span class="math inline">\(R_0\)</span> the shiny app then calculates the appropriate <span class="math inline">\(\beta\)</span> value. Note that direct <span class="math inline">\(R_0\)</span> <em>per year</em> is not the same as the typical <span class="math inline">\(R_0\)</span> which is based on the entire duration of the infectious period, which may be several years. We used this per year <span class="math inline">\(R_0\)</span> because the traditional <span class="math inline">\(R_0\)</span> is a function of the other user-inputs hunting and natural mortality. The direct per year <span class="math inline">\(R_0\)</span> may be less than one and CWD may still increase in the population if individuals are likely to survive with the disease for many years. Also note that the environmental transmission component is not included in that user-input of the direct <span class="math inline">\(R_0\)</span>.</p>
-<p>The models assume that males may be more likely to become infected than females. In the model functions <span class="math inline">\(\beta_f\)</span> and <span class="math inline">\(\beta_m\)</span> are independent parameters. However, in the shiny app the user inputs <span class="math inline">\(\gamma\)</span>, whereby <span class="math inline">\(\beta_m = \beta_f\gamma\)</span> and if females and males are equally likely to become infected then <span class="math inline">\(\gamma=1\)</span>.</p>
 <p>Finally, the relative hunting risk is the ratio of the probability of an infected vs. uninfected individuals being harvested. When the relative risk is greater than one, infected individuals are more likely likely to be harvested relative to the background prevalence, which may be due to the behavior of infected individuals or management strategies that target hot-spots of infection. The parameters in the stochastic model are the same with the exception of the number of simulations to be run.</p>
 <p><em>Table 1. Parameters included in the models</em></p>
 <table>
@@ -383,6 +385,34 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td><span class="math inline">\(\gamma\)</span></td>
 <td>2</td>
 <td>male transmission = <span class="math inline">\(\beta_m = \beta_f \gamma\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>female to female transmission</td>
+<td><span class="math inline">\(\beta_{ff}\)</span></td>
+<td>beta.ff = 0.05</td>
+<td>used in “wiw” models</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>male to female transmission</td>
+<td><span class="math inline">\(\beta_{mf}\)</span></td>
+<td>beta.mf</td>
+<td>used in “wiw” models</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>female to male transmission</td>
+<td><span class="math inline">\(\beta_{fm}\)</span></td>
+<td>beta.fm</td>
+<td>used in “wiw” models</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>male to male transmission</td>
+<td><span class="math inline">\(\beta_{mm}\)</span></td>
+<td>beta.fm</td>
+<td>used in “wiw” models</td>
 </tr>
 <tr class="odd">
 <td></td>

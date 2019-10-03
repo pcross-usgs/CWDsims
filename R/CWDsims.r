@@ -19,7 +19,7 @@
 #' cwd_stoch_wrapper runs the stochastic CWD model multiple times for the same
 #'   parameter set
 #' 
-#' launchCWDapp launches the Shiny application.     
+#' launchCWDapp launches the Shiny applications.     
 #' 
 #' @section Helper functions: 
 #' est_beta_params converts from a mean and variance to the shape and scale 

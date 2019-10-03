@@ -307,22 +307,22 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 
-<p>The <code>CWDsims</code> package was created as a decision-support tool for natural resource managers interested in investigating different scenarios associated with chronic wasting disease (CWD). This tool allows the user to enter parameters for deer or elk vital rates, hunting mortality, and disease transmission and the model will plot the total number of individuals, prevalence, age and sex distribution, and how many deaths were natural, hunting or CWD-related. The user can tailor the model to their species and region of interest by modifying the parameters and starting conditions. The <code>WDsims</code> package includes functions to run deterministic and stochastic models, plot the results, and run interactive Shiny apps associated with those CWD model functions.</p>
-<p>For information on getting started in R and installing the package, see <a href="#getting-started-in-r">Getting Started</a>. Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.</p>
-<p>For details on how the CWD models are structured and parameterized see the CWDsims Model vignette. For additional details on the Shiny applications see the CWDsims Shiny vignette</p>
+<p>The <code>CWDsims</code> package was created as a decision-support tool for natural resource managers interested in investigating different scenarios associated with chronic wasting disease (CWD). This tool allows the user to enter parameters for deer or elk vital rates, hunting mortality, and disease transmission and the model will plot the total number of individuals, prevalence, age and sex distribution, and how many deaths were natural, hunting or CWD-related. The user can tailor the model to their species and region of interest by modifying the parameters and starting conditions. The <code>CWDsims</code> package includes functions to run deterministic and stochastic models, plot the results, and run interactive Shiny apps associated with those CWD model functions.</p>
+<p>For information on getting started in R and installing the package, see <a href="#getting-started-in-r">Getting Started</a>.</p>
+<p>For details on how the CWD models are structured and parameterized see the CWDsims Model vignette.</p>
 <p>In order to launch the interactive Shiny application on your local machine run the following:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(CWDsims)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">launchCWDapp</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">launchCWDapp</span>(<span class="st">&quot;CWDapp&quot;</span>)</a></code></pre></div>
 <p>Some users may be interested in storing output associated with the different models so that more detailed analyses and comparisons can be done. Below is a quick workflow for how to use some of the functions in ‘CWDsims’.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># first create a list of parameter values</span></a>
 <a class="sourceLine" id="cb2-2" title="2">params &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">fawn.an.sur =</span> <span class="fl">0.6</span>, <span class="dt">juv.an.sur =</span> <span class="fl">0.8</span>, <span class="dt">ad.an.f.sur =</span> <span class="fl">0.9</span>,</a>
 <a class="sourceLine" id="cb2-3" title="3">               <span class="dt">ad.an.m.sur =</span> <span class="fl">0.9</span>, <span class="dt">fawn.repro =</span> <span class="dv">0</span>, <span class="dt">juv.repro =</span> <span class="fl">0.6</span>,</a>
 <a class="sourceLine" id="cb2-4" title="4">               <span class="dt">ad.repro =</span> <span class="dv">1</span>, <span class="dt">hunt.mort.fawn =</span> <span class="fl">0.01</span>, <span class="dt">hunt.mort.juv.f =</span> <span class="fl">0.1</span>,</a>
 <a class="sourceLine" id="cb2-5" title="5">               <span class="dt">hunt.mort.juv.m =</span> <span class="fl">0.1</span>, <span class="dt">hunt.mort.ad.f =</span> <span class="fl">0.2</span>, </a>
-<a class="sourceLine" id="cb2-6" title="6">               <span class="dt">hunt.mort.ad.m =</span> <span class="fl">0.2</span>, <span class="dt">ini.fawn.prev =</span> <span class="fl">0.02</span>, <span class="dt">ini.juv.prev =</span> <span class="fl">0.03</span>,</a>
+<a class="sourceLine" id="cb2-6" title="6">               <span class="dt">hunt.mort.ad.m =</span> <span class="fl">0.2</span>, <span class="dt">ini.fawn.prev =</span> <span class="fl">0.01</span>, <span class="dt">ini.juv.prev =</span> <span class="fl">0.03</span>,</a>
 <a class="sourceLine" id="cb2-7" title="7">               <span class="dt">ini.ad.f.prev =</span> <span class="fl">0.04</span>, <span class="dt">ini.ad.m.prev =</span> <span class="fl">0.04</span>, <span class="dt">n.age.cats =</span> <span class="dv">12</span>, </a>
 <a class="sourceLine" id="cb2-8" title="8">               <span class="dt">p =</span> <span class="fl">0.43</span>, <span class="dt">env.foi =</span> <span class="dv">0</span>, <span class="dt">beta.f =</span> <span class="fl">0.15</span>, <span class="dt">beta.m =</span> <span class="fl">0.15</span>, <span class="dt">theta =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb2-9" title="9">               <span class="dt">n0 =</span> <span class="dv">2000</span>, <span class="dt">n.years =</span> <span class="dv">10</span>, <span class="dt">rel.risk =</span> <span class="fl">1.0</span>)</a>
+<a class="sourceLine" id="cb2-9" title="9">               <span class="dt">n0 =</span> <span class="dv">1000</span>, <span class="dt">n.years =</span> <span class="dv">10</span>, <span class="dt">rel.risk =</span> <span class="fl">1.0</span>)</a>
 <a class="sourceLine" id="cb2-10" title="10"></a>
 <a class="sourceLine" id="cb2-11" title="11"><span class="co"># run the deterministic CWD model</span></a>
 <a class="sourceLine" id="cb2-12" title="12">out &lt;-<span class="st"> </span><span class="kw">cwd_det_model</span>(params)</a>
@@ -335,23 +335,33 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="code-and-implementation" class="section level3">
 <h3>Code and Implementation</h3>
-<p>Code was written using R version 3.6.1 (R Foundation for Statistical Computing, Vienna, AT; www.R-project.org) and the Shiny package version 1.3.2 (Chang et al. 2017). The main other packages used were:</p>
+<p>Code was written using R version 3.6.1 (R Foundation for Statistical Computing, Vienna, AT; www.R-project.org) and the Shiny package version 1.3.2 (Chang et al. 2017). The other packages used were:</p>
 <ul>
-<li>reshape2: version 1.4.3</li>
-<li>popbio: version 2.4.4</li>
-<li>magrittr: version 1.5</li>
-<li>tidyverse: version 1.2.1</li>
-<li>cowplot: version 1.0.0</li>
-<li>ggridges: version 0.5.1</li>
-<li>knitr: version 1.2.5</li>
-<li>shinydashboard: version 0.7.1</li>
+<li>cowplot (&gt;= 1.0.0)</li>
+<li>dplyr (&gt;= 0.8.3)</li>
+<li>forcats (&gt;= 0.4.0)</li>
+<li>hexSticker (&gt;= 0.4.6)</li>
+<li>ggplot2 (&gt;= 3.2.1)</li>
+<li>ggridges (&gt;= 0.5.1)</li>
+<li>knitr (&gt;= 1.25)</li>
+<li>magrittr (&gt;= 1.5)</li>
+<li>markdown (&gt;= 1.1)</li>
+<li>popbio (&gt;= 2.6)</li>
+<li>reshape2 (&gt;= 1.4.3)</li>
+<li>shiny (&gt;= 1.3.2)</li>
+<li>shinydashboard (&gt;= 0.7.1)</li>
+<li>tidyr (&gt;= 1.0.0)</li>
+<li>plyr (&gt;= 1.8.4)</li>
+<li>stringr (&gt;= 1.4.0)</li>
+<li>stats (&gt;= 3.6.1)</li>
 </ul>
 <p>All of the source code is available at <a href="https://github.com/pcross-usgs/CWD-shiny" class="uri">https://github.com/pcross-usgs/CWD-shiny</a>.</p>
 </div>
 <div id="citation" class="section level3">
 <h3>Citation</h3>
 <p>This CWD model was developed by the U.S. Geological Survey, Northern Rocky Mountain Science Center, in collaboration with Montana Fish, Wildlife, and Parks.</p>
-<p>The tool may be cited as: Cross, PC and ES Almberg. 2019. CWDsims: An R package for simulating chronic wasting disease scenarios. URL TBD. DOI: 10.5066/P948SF4Q.</p>
+<p>The tool may be cited as:<br />
+Cross, PC and ES Almberg. 2019. CWDsims: An R package for simulating chronic wasting disease scenarios. URL TBD. DOI: 10.5066/P948SF4Q.</p>
 <p><em>Contact:</em> For technical assistance or to report outages, please contact <a href="mailto:pcross@usgs.gov" class="email">pcross@usgs.gov</a></p>
 <p><em>Disclaimers</em>: Although these data have been processed successfully on a computer system at the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data for other purposes, nor on all computer systems, nor shall the act of distribution constitute any such warranty. The USGS or the U.S. Government shall not be held liable for improper or incorrect use of the data described and/or contained herein.</p>
 <p>Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.</p>
