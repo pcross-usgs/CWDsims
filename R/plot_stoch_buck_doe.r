@@ -23,12 +23,12 @@
 #' repro.var = 0.005, fawn.sur.var = 0.005, sur.var = 0.005, hunt.var = 0.005)
 #' 
 #' out <- cwd_stoch_wrapper(params, nsims = 20)
-#' plot_stoch_age_dist(out$counts, all.lines = TRUE, 
+#' plot_stoch_buck_doe(out$counts, all.lines = TRUE, 
 #' error.bars = c(0.05, 0.95))
 #' 
 #' @export
 
-plot_stoch_buck_doe <- function(dat, all.lines, error.bars, ...){
+plot_stoch_buck_doe <- function(dat, all.lines, error.bars){
   if(missing(dat)==TRUE) warning("missing data to plot")
   
   if(missing(all.lines)){all.lines = TRUE}

@@ -18,3 +18,7 @@ A list of alpha and beta values
 Converts mean and variance parameters to the shape and scale parameters of a
 Beta distribution
 }
+\examples{
+est_beta_params(mu = 0.9, var = 0.005)
+
+}

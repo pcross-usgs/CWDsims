@@ -18,3 +18,7 @@ Creates a plot of the time (in years) to disease-induced death based on the
 proportion or probability of movement through the 10 infectious
 sub-categories. Uses 1000 draws from a Gamma distribution.
 }
+\examples{
+plot_ttd(p = 0.043)
+
+}

@@ -29,6 +29,7 @@
 #' 
 #' plot_prev_age_end plots the prevalence versus age curve at the last 
 #'   timepoint. 
+#'   
 #' plot_prev_time plots the prevalence over time. 
 #' 
 #' plot_tots plots the total population size over time

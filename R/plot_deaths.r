@@ -11,6 +11,7 @@
 #' @import dplyr
 #' @importFrom magrittr %>%
 #' @importFrom forcats fct_recode fct_reorder
+#' @examples
 #' params <- list(fawn.an.sur = 0.6, juv.an.sur = 0.8, ad.an.f.sur = 0.95, 
 #' ad.an.m.sur = 0.9, fawn.repro = 0, juv.repro = 0.6, ad.repro = 1, 
 #' hunt.mort.fawn = 0.01, hunt.mort.juv.f = 0.1, hunt.mort.juv.m = 0.1,

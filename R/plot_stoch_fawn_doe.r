@@ -26,7 +26,7 @@
 #' plot_stoch_fawn_doe(out$counts, error.bars = c(0.05, 0.95))
 #' @export
 
-plot_stoch_fawn_doe <- function(dat, all.lines, error.bars, ...){
+plot_stoch_fawn_doe <- function(dat, all.lines, error.bars){
   if(missing(dat)==TRUE) warning("missing data to plot")
   
   if(missing(all.lines)){all.lines = TRUE}

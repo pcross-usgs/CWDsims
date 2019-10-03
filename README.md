@@ -58,7 +58,7 @@ Install from GitHub using the `devtools` packages:
 ```r
 install.packages("devtools")
 library(devtools)
-install_github("pcross-usgs/CWDsims")
+install_github("pcross-usgs/CWDsims", build_vignettes = TRUE)
 ```
 
 ### Disclaimer ###
