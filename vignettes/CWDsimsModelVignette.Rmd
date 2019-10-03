@@ -72,30 +72,25 @@ Finally, the relative hunting risk is the ratio of the probability of an infecte
 
 *Table 1. Parameters included in the models*
 
-|           | Parameter         | Symbol    | Code name |Comments|
-|----------------- | ----------------------- |----------   |---------------- | ----------------------------------------------|
-|State variables   | Susceptible       | $S_{i,a}$   | St.f, St.m |$i$ = sex, $a$ = age  |
-|                  | Infectious        | $I_{i,a, j}$ | It.f, It.m | $j$ = infectious sub-category from 1 to 10 |
+|           | Parameter | Symbol | Code name & Default value | Comments |
+|-------------- | ---------------- |---------- |------------------ | ------------------------------------|
+|State variables | Susceptible  | $S_{i,a}$   | St.f, St.m | $i$ = sex, $a$ = age  |
+|                | Infectious | $I_{i,a, j}$ | It.f, It.m | $j$ = infectious sub-category from 1 to 10 |
 | |  | |  | |
-|Vital rates       | natural survival | $\delta_{i,a}$ |fawn.an.sur, juv.an.sur, ad.an.f.sur, ad.an.m.sur | entered as annual proportions and later converted to monthly |
-|                | reproduction      | $\alpha_{a>1}$|fawn.repro, juv.repro, ad.repro| may be greater than one to account for twins | 
-|                | hunting mortality | $\kappa_{i,a}$ |hunt.mort.fawn, hunt.mort.juv.f, hunt.mort.juv.m, hunt.mort.ad.f, hunt.mort.ad.m|  |
-|                | disease mortality | $\rho$ | p | dictates the rate of movement among infectious sub-categories |
-| | relative risk | $RR$ | rel.risk | increase in hunting mortality associated with being CWD positive |
+|Vital rates     | natural survival | $\delta_{i,a}$ |fawn.an.sur = 0.6, juv.an.sur = 0.8, ad.an.f.sur = 0.95, ad.an.m.sur = 0.9 | annual proportions, later converted to monthly |
+|                | reproduction      | $\alpha_{a>1}$|fawn.repro = 0, juv.repro = 0.6, ad.repro = 1 | may be greater than one to account for twins | 
+|                | hunting mortality | $\kappa_{i,a}$ |hunt.mort.fawn= 0.01, hunt.mort.juv.f= 0.03, hunt.mort.juv.m = 0.03, hunt.mort.ad.f = 0.1, hunt.mort.ad.m = 0.2|  |
+|                | disease mortality index | $\rho$ | p = 0.43 | dictates the rate of movement among infectious sub-categories |
+| | hunting relative risk | $RR$ | rel.risk = 1 | increase in hunting mortality associated with being CWD positive |
 | |  | |  | |
-|Transmission    | envi. transmission| $\epsilon$ | envi.foi | annual probability from 0 to 1 |
-|                | transmission coefficient | $\beta_{i}$ | beta.f, beta.m | direct transmission |
-|                | male scaling      | $\gamma$ | | male transmission = $\beta_m = \beta_f \gamma$|
-|                | mixing parameter  | $\theta$ | theta | $\theta = 1$ is frequency dependent transmission, $\theta = 0$ is density dependent transmission |
+|Transmission    | environmental transmission| $\epsilon$ | env.foi = 0 | annual probability from 0 to 1 |
+|                | transmission coefficient | $\beta_{i}$ | beta.f = 0.05, beta.m = 0.1 | direct transmission |
+|                | relative male infection  | $\gamma$ | 2 | male transmission = $\beta_m = \beta_f \gamma$|
+|                | mixing parameter  | $\theta$ | theta = 1 | $\theta = 1$ is frequency dependent transmission, $\theta = 0$ is density dependent transmission. Can be intermediate. |
 | |  | |  | |
-|Stochasticity   | vital rate variation  | $\sigma^2$ |repro.var, fawn.sur.var, sur.var, hunt.var| variance for the survival, hunting and reproduction rates |
+|Stochasticity   | vital rate variation  | $\sigma^2$ |repro.var = 0.005, fawn.sur.var = 0.005, sur.var = 0.005, hunt.var = 0.005| variance for the survival, hunting and reproduction rates |
 | |  | |  | |
-| Intitial conditions | prevalence | | ini.fawn.prev, ini.juv.prev, ini.ad.f.prev, ini.ad.m.prev| prevalence at the start of the simulation.
-| | population size | | n0 | |
-| | # of years | | n.years | # of years to run the simulation |
-
-
-
-
-
-
+| Intitial conditions | prevalence | | ini.fawn.prev = 0.01, ini.juv.prev = 0.02, ini.ad.f.prev = 0.03, ini.ad.m.prev = 0.03| prevalence at the start of the simulation.
+| | population size | | n0 = 1000 | |
+| | # of years | | n.years = 10| # of years to run the simulation |
+| | # of simulations | | n.sims = 30| # of years to run the simulation |

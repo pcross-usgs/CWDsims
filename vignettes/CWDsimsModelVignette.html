@@ -282,20 +282,20 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>The models assume that males may be more likely to become infected than females. In the model functions <span class="math inline">\(\beta_f\)</span> and <span class="math inline">\(\beta_m\)</span> are independent parameters. However, in the shiny app the user inputs <span class="math inline">\(\gamma\)</span>, whereby <span class="math inline">\(\beta_m = \beta_f\gamma\)</span> and if females and males are equally likely to become infected then <span class="math inline">\(\gamma=1\)</span>.</p>
 <p>Finally, the relative hunting risk is the ratio of the probability of an infected vs. uninfected individuals being harvested. When the relative risk is greater than one, infected individuals are more likely likely to be harvested relative to the background prevalence, which may be due to the behavior of infected individuals or management strategies that target hot-spots of infection. The parameters in the stochastic model are the same with the exception of the number of simulations to be run.</p>
 <p><em>Table 1. Parameters included in the models</em></p>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="15%"></col>
-<col width="20%"></col>
-<col width="8%"></col>
 <col width="14%"></col>
-<col width="41%"></col>
+<col width="17%"></col>
+<col width="10%"></col>
+<col width="19%"></col>
+<col width="38%"></col>
 </colgroup>
 <thead>
 <tr class="header">
 <th></th>
 <th>Parameter</th>
 <th>Symbol</th>
-<th>Code name</th>
+<th>Code name &amp; Default value</th>
 <th>Comments</th>
 </tr>
 </thead>
@@ -325,35 +325,35 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td>Vital rates</td>
 <td>natural survival</td>
 <td><span class="math inline">\(\delta_{i,a}\)</span></td>
-<td>fawn.an.sur, juv.an.sur, ad.an.f.sur, ad.an.m.sur</td>
-<td>entered as annual proportions and later converted to monthly</td>
+<td>fawn.an.sur = 0.6, juv.an.sur = 0.8, ad.an.f.sur = 0.95, ad.an.m.sur = 0.9</td>
+<td>annual proportions, later converted to monthly</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>reproduction</td>
 <td><span class="math inline">\(\alpha_{a&gt;1}\)</span></td>
-<td>fawn.repro, juv.repro, ad.repro</td>
+<td>fawn.repro = 0, juv.repro = 0.6, ad.repro = 1</td>
 <td>may be greater than one to account for twins</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>hunting mortality</td>
 <td><span class="math inline">\(\kappa_{i,a}\)</span></td>
-<td>hunt.mort.fawn, hunt.mort.juv.f, hunt.mort.juv.m, hunt.mort.ad.f, hunt.mort.ad.m</td>
+<td>hunt.mort.fawn= 0.01, hunt.mort.juv.f= 0.03, hunt.mort.juv.m = 0.03, hunt.mort.ad.f = 0.1, hunt.mort.ad.m = 0.2</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td></td>
-<td>disease mortality</td>
+<td>disease mortality index</td>
 <td><span class="math inline">\(\rho\)</span></td>
-<td>p</td>
+<td>p = 0.43</td>
 <td>dictates the rate of movement among infectious sub-categories</td>
 </tr>
 <tr class="even">
 <td></td>
-<td>relative risk</td>
+<td>hunting relative risk</td>
 <td><span class="math inline">\(RR\)</span></td>
-<td>rel.risk</td>
+<td>rel.risk = 1</td>
 <td>increase in hunting mortality associated with being CWD positive</td>
 </tr>
 <tr class="odd">
@@ -365,31 +365,31 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr class="even">
 <td>Transmission</td>
-<td>envi. transmission</td>
+<td>environmental transmission</td>
 <td><span class="math inline">\(\epsilon\)</span></td>
-<td>envi.foi</td>
+<td>env.foi = 0</td>
 <td>annual probability from 0 to 1</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>transmission coefficient</td>
 <td><span class="math inline">\(\beta_{i}\)</span></td>
-<td>beta.f, beta.m</td>
+<td>beta.f = 0.05, beta.m = 0.1</td>
 <td>direct transmission</td>
 </tr>
 <tr class="even">
 <td></td>
-<td>male scaling</td>
+<td>relative male infection</td>
 <td><span class="math inline">\(\gamma\)</span></td>
-<td></td>
+<td>2</td>
 <td>male transmission = <span class="math inline">\(\beta_m = \beta_f \gamma\)</span></td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>mixing parameter</td>
 <td><span class="math inline">\(\theta\)</span></td>
-<td>theta</td>
-<td><span class="math inline">\(\theta = 1\)</span> is frequency dependent transmission, <span class="math inline">\(\theta = 0\)</span> is density dependent transmission</td>
+<td>theta = 1</td>
+<td><span class="math inline">\(\theta = 1\)</span> is frequency dependent transmission, <span class="math inline">\(\theta = 0\)</span> is density dependent transmission. Can be intermediate.</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -402,7 +402,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td>Stochasticity</td>
 <td>vital rate variation</td>
 <td><span class="math inline">\(\sigma^2\)</span></td>
-<td>repro.var, fawn.sur.var, sur.var, hunt.var</td>
+<td>repro.var = 0.005, fawn.sur.var = 0.005, sur.var = 0.005, hunt.var = 0.005</td>
 <td>variance for the survival, hunting and reproduction rates</td>
 </tr>
 <tr class="even">
@@ -416,21 +416,28 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td>Intitial conditions</td>
 <td>prevalence</td>
 <td></td>
-<td>ini.fawn.prev, ini.juv.prev, ini.ad.f.prev, ini.ad.m.prev</td>
+<td>ini.fawn.prev = 0.01, ini.juv.prev = 0.02, ini.ad.f.prev = 0.03, ini.ad.m.prev = 0.03</td>
 <td>prevalence at the start of the simulation.</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>population size</td>
 <td></td>
-<td>n0</td>
+<td>n0 = 1000</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td></td>
 <td># of years</td>
 <td></td>
-<td>n.years</td>
+<td>n.years = 10</td>
+<td># of years to run the simulation</td>
+</tr>
+<tr class="even">
+<td></td>
+<td># of simulations</td>
+<td></td>
+<td>n.sims = 30</td>
 <td># of years to run the simulation</td>
 </tr>
 </tbody>

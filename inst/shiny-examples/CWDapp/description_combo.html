@@ -368,30 +368,27 @@ summary {
 <div id="decision-support-tool-for-cwd-management" class="section level2">
 <h2>Decision-Support Tool for CWD Management</h2>
 <p>This application is a decision-support tool for natural resource managers interested in investigating different scenarios associated with chronic wasting disease (CWD). This tool allows the user to enter parameters for deer or elk vital rates, hunting mortality, and disease transmission and the model will plot the total number of individuals, prevalence, age and sex distribution, and how many deaths were natural, hunting or CWD-related. The user can tailor the model to their species and region of interest by modifying the parameters and starting conditions.</p>
-<p>In addition to this description page there are four other pages that can be accessed via the tabs above. The deterministic model, as the name implies, includes no stochasticity. Parameters can be entered and changed using the sliders on the left hand side of the screen and any time a parameter is changed the model will automatically re-run and plot the new results. The stochastic model has the same structure as the deterministic model but includes both environmental and demographic stochasticity. Vital rates and hunting mortality vary annually while disease transmission rates are fixed. The distribution of these parameters is shown in the plots section under the Parameters tab. To run or re-run the stochastic model the user must first press the “Run Simulation” button. The Deterministic and Stochastic comparison tabs allow the user to enter two different scenarios and compare the modeled outcomes.</p>
+<div id="model-tabs" class="section level3">
+<h3>Model tabs</h3>
+<p>There are four other pages in this application that can be accessed via the tabs above. The deterministic model, as the name implies, includes no stochasticity. Parameters can be entered and changed using the sliders on the left hand side of the screen and any time a parameter is changed the model will automatically re-run and plot the new results. The stochastic model has the same structure as the deterministic model but includes both environmental and demographic stochasticity. The stochastic model will not automatically re-run every time the parameters are changed. Instead the user must press the “run simulation” button to run the model. Finally there are two comparison tabs that allow for a side-by-side comparison of two different scenarios. The user must press the “run simulation” button for each scenario. Note that the default parameters are initially identical between the two scenarios and need to be changed for the comparison plots to be useful.</p>
+</div>
 <div id="user-inputs" class="section level3">
 <h3>User inputs</h3>
-<p>A few of the user inputs require some additional explanation. All survival rates are entered as annual probabilities, while reproductive rates are entered as the number of total offspring per female. Indirect transmission is the annual probability of being infected from the environment, which we assumed to be constant for the duration of the simulation. The direct transmission rate is proportional to <span class="math inline">\(\frac{\beta SI}{N^{\theta}}\)</span>, where <span class="math inline">\(\beta\)</span> is the transmission coefficient, <span class="math inline">\(I\)</span> and <span class="math inline">\(N\)</span> are the number of infectious individuals and the total number of individuals. <span class="math inline">\(\theta\)</span> determines whether disease transmission depends on the number of infected individuals <span class="math inline">\(\theta = 0\)</span> or the prevalence <span class="math inline">\(\theta = 1\)</span> (i.e. density or frequency dependent transmission). Due to the strong effect of <span class="math inline">\(\theta\)</span> on the transmission rate, we ask the user to set <span class="math inline">\(\theta\)</span> and the direct <span class="math inline">\(R_0\)</span> per year, which we define as the expected number of individuals to be infected by an infected individual in a completely susceptible population in one year. Based on these inputs we then calculate <span class="math inline">\(\beta\)</span> for the simulation. We assume males may be more likely to become infected than females, whereby <span class="math inline">\(\beta_m = \beta_f\gamma\)</span>, set <span class="math inline">\(\gamma=1\)</span> if females and males are equally likely to become infected. The annual number of individuals a female infects in a fully susceptible population (i.e. the annual direct <span class="math inline">\(R_0\)</span>) is entered by the user, while the direct <span class="math inline">\(R_0\)</span> for males and females, which accounts for how long infected individuals are likely to live, is provided as an output.</p>
-<p>A constant probability of disease induced mortality per time step results in a negative binomial distribution of time until death, whereby most individuals die of disease very quickly and a few survive for a very long time. We used a box-car modeling approach to create a bell-shaped distibution of time until disease induced death where most individuals are likely to survive for a year but few are likely to survive past five. In the box-car approach the infected category is divided into a number of identical sub-categories that an individual must pass through prior to disease-induced mortality occurring. We chose 10 sub-categories. The rate of movement from sub category 1 to 10 then determines the time until death as all individuals die once they leave the 10th category. A probability or proportion of 0.43 moving makes the time to disease-induced death about two years. The user can look at how this index of disease mortality is related to time until death in the Plots/Parameters tab. Finally, the relative hunting risk is the ratio of the probability of an infected vs. uninfected individuals being harvested. When the relative risk is greater than one, infected individuals are more likely likely to be harvested relative to the background prevalence, which may be due to the behavior of infected individuals or management strategies that target hot-spots of infection. The parameters in the stochastic model are the same with the exception of the number of simulations to be run. The variance in vital rates is currently fixed at 0.005.</p>
-</div>
-<div id="model-structure" class="section level3">
-<h3>Model Structure</h3>
-<p>The underlying model is a discrete time model with a monthly timestep. Each simulation begins in May with all births occurring in June and all hunting occurring in November. The model tracks sex and ages of individuals in susceptible (<span class="math inline">\(S\)</span>) and infectious (<span class="math inline">\(I\)</span>) categories to allow for hunting strategies that may target different sex and age groups, and may be preferential to infectious individuals.</p>
-<p>The order of operations in the model is as follows: aging, reproduction, natural mortality, hunting mortality, disease mortality, and disease transmission. Thus, in November when hunting occurs in the model, we assume that the percentage, or probability of, being hunting is independent of natural mortality and individuals are only hunted if they have first survived other natural causes of death. Since only a small fraction of the population is likely to die of natural causes during one month, this ordering issue is unlikely to be a significant issue. Biologically, different forms of mortality are often correlated, but for modelling purposes we assumed that changing one parameter does not affect any others.</p>
-<p>We assume there is no density dependence in any of the survival or reproduction rates. As a result, host population size will increase or decrease exponentially. However, the intent of the model is to be useful over time spans of five to ten years. To initiate the model we construct an annual time step Leslie matrix population model using the reproduction, natural survival and hunting rates. We then calculate the stable stage distribution and assume that all age classes have equal disease prevalence at the start of the simulation.</p>
-<p><em>Table 1. Parameters included in the model</em></p>
+<p><em>Table 1. Parameters included in the models</em></p>
 <table>
 <colgroup>
+<col width="14%"></col>
 <col width="17%"></col>
-<col width="23%"></col>
 <col width="10%"></col>
-<col width="47%"></col>
+<col width="19%"></col>
+<col width="38%"></col>
 </colgroup>
 <thead>
 <tr class="header">
-<th>Table 1.</th>
+<th></th>
 <th>Parameter</th>
 <th>Symbol</th>
+<th>Code name &amp; Default value</th>
 <th>Comments</th>
 </tr>
 </thead>
@@ -400,12 +397,14 @@ summary {
 <td>State variables</td>
 <td>Susceptible</td>
 <td><span class="math inline">\(S_{i,a}\)</span></td>
+<td>St.f, St.m</td>
 <td><span class="math inline">\(i\)</span> = sex, <span class="math inline">\(a\)</span> = age</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>Infectious</td>
 <td><span class="math inline">\(I_{i,a, j}\)</span></td>
+<td>It.f, It.m</td>
 <td><span class="math inline">\(j\)</span> = infectious sub-category from 1 to 10</td>
 </tr>
 <tr class="odd">
@@ -413,144 +412,150 @@ summary {
 <td></td>
 <td></td>
 <td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td>Vital rates</td>
-<td>natural mortality</td>
+<td>natural survival</td>
 <td><span class="math inline">\(\delta_{i,a}\)</span></td>
-<td>assumed to be the same for &gt;2 years old within each sex category</td>
+<td>fawn.an.sur = 0.6, juv.an.sur = 0.8, ad.an.f.sur = 0.9, ad.an.m.sur = 0.85</td>
+<td>annual proportions, later converted to monthly</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>reproduction</td>
 <td><span class="math inline">\(\alpha_{a&gt;1}\)</span></td>
-<td>Fawns are assumed not to reproduce</td>
+<td>fawn.repro = 0, juv.repro = 0.6, ad.repro = 1</td>
+<td>may be greater than one to account for twins</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>hunting mortality</td>
 <td><span class="math inline">\(\kappa_{i,a}\)</span></td>
+<td>hunt.mort.fawn= 0.01, hunt.mort.juv.f= 0.03, hunt.mort.juv.m = 0.03, hunt.mort.ad.f = 0.1, hunt.mort.ad.m = 0.2</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td></td>
-<td>disease mortality</td>
+<td>disease mortality index</td>
 <td><span class="math inline">\(\rho\)</span></td>
+<td>p = 0.43</td>
 <td>dictates the rate of movement among infectious sub-categories</td>
 </tr>
 <tr class="even">
 <td></td>
+<td>hunting relative risk</td>
+<td><span class="math inline">\(RR\)</span></td>
+<td>rel.risk = 1</td>
+<td>increase in hunting mortality associated with being CWD positive</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Transmission</td>
-<td>envi. transmission</td>
+<td>environmental transmission</td>
 <td><span class="math inline">\(\epsilon\)</span></td>
-<td>probability from 0 to 1</td>
+<td>envi.foi = 0</td>
+<td>annual probability from 0 to 1</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>transmission coefficient</td>
+<td><span class="math inline">\(\beta_{i}\)</span></td>
+<td>beta.f = 0.05, beta.m = 0.1</td>
+<td>direct transmission</td>
 </tr>
 <tr class="even">
 <td></td>
-<td>transmission parameter</td>
-<td><span class="math inline">\(\beta_f\)</span></td>
-<td>baseline female transmission</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>male scaling</td>
+<td>relative male infection</td>
 <td><span class="math inline">\(\gamma\)</span></td>
+<td>2</td>
 <td>male transmission = <span class="math inline">\(\beta_m = \beta_f \gamma\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td>mixing parameter</td>
 <td><span class="math inline">\(\theta\)</span></td>
-<td><span class="math inline">\(\theta = 1\)</span> is frequency dependent transmission, <span class="math inline">\(\theta = 0\)</span> is density dependent transmission</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>theta = 1</td>
+<td><span class="math inline">\(\theta = 1\)</span> is frequency dependent transmission, <span class="math inline">\(\theta = 0\)</span> is density dependent transmission. Can be intermediate.</td>
 </tr>
 <tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
 <td>Stochasticity</td>
 <td>vital rate variation</td>
 <td><span class="math inline">\(\sigma^2\)</span></td>
-<td><span class="math inline">\(\sigma^2 = 0.005\)</span> for all vital rates</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="disease-induced-mortality" class="section level3">
-<h3>Disease induced mortality</h3>
-<p>We use a box-car approach to model disease induced mortality so that time until death is <span class="math inline">\(\Gamma\)</span> distribution and roughly bell-shaped. To accomplish this we split the infectious category into 10 sub-categories and individuals move from sub-category 1 to 10 at a constant rate <span class="math inline">\(\rho\)</span> and then die when they move out of the 10th sub-category. One can observe the relationship between <span class="math inline">\(\rho\)</span> and the time until disease-induced death by looked at the parameter plot tab.</p>
-</div>
-<div id="hunting" class="section level3">
-<h3>Hunting</h3>
-<p>We allow hunting to preferentially kill positive individuals. The intent is to simulate the possibility of increased hunting in hot-spot areas. The user can input the relative risk of hunting positives, which equals 1 in the case of no preference and positives are hunted in proportion to the prevalence. This calculation is based on the 2x2 contingency table of hunted vs not hunted and positive vs negative for disease shown below.</p>
-<p><em>Table 2. Contingency table of hunting versus disease prevalence.</em></p>
-<table>
-<thead>
-<tr class="header">
-<th>Table 2</th>
-<th>hunted</th>
-<th>not hunted</th>
-<th>totals</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>positive</td>
-<td>A</td>
-<td>B</td>
-<td>G</td>
+<td>repro.var = 0.005, fawn.sur.var = 0.005, sur.var = 0.005, hunt.var = 0.005</td>
+<td>variance for the survival, hunting and reproduction rates</td>
 </tr>
 <tr class="even">
-<td>negative</td>
-<td>C</td>
-<td>D</td>
-<td>H</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
-<td>total</td>
-<td>E</td>
-<td>F</td>
+<td>Intitial conditions</td>
+<td>prevalence</td>
 <td></td>
+<td>ini.fawn.prev = 0.01, ini.juv.prev = 0.02, ini.ad.f.prev = 0.03, ini.ad.m.prev = 0.03</td>
+<td>prevalence at the start of the simulation.</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>population size</td>
+<td></td>
+<td>n0 = 1000</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td># of years</td>
+<td></td>
+<td>n.years = 10</td>
+<td># of years to run the simulation</td>
 </tr>
 </tbody>
 </table>
-<p>In Table 1 the marginal frequencies (<em>i.e.</em> the total number of positives, negatives, hunted and not hunted) are known via user inputs. The relative risk of hunting a positive is <span class="math inline">\(RR = \frac{A / (A+B)}{C/(C+D)}\)</span>. In this case <span class="math inline">\(RR\)</span>, the prevalence <span class="math inline">\(G/(G+H)\)</span>, and the % hunted <span class="math inline">\(E/(E+F)\)</span> are known such that we can solve for A, B, C, and D. We assume that infected individuals are hunted equally across all sub-categories.</p>
+<p><em>Vital rate parameters</em></p>
+<p>In the deterministic and stochastic model tabs the user can adjust the model parameters via the sliders on the left-hand side of the page. Parameters are grouped by type in the vital rates, disease, hunting, simulation, and variance tabs. All survival rates are entered as annual probabilities, while reproductive rates are entered as the number of total offspring per female. Note that fawns are defined as &lt;1 year old and juveniles are 1-2 years old. Adults are &gt; 2 years old.</p>
+<p><em>Disease parameters</em></p>
+<p>Indirect transmission is the annual probability of being infected from the environment, which is constant for the duration of the simulation. The direct transmission rate is proportional to <span class="math inline">\(\frac{\beta SI}{N^{\theta}}\)</span>, where <span class="math inline">\(\beta\)</span> is the transmission coefficient, <span class="math inline">\(I\)</span> and <span class="math inline">\(N\)</span> are the number of infectious individuals and the total number of individuals.<span class="math inline">\(\theta\)</span> determines how disease transmission is a function of the population size. When <span class="math inline">\(\theta = 0\)</span> disease transmission is a function of the number of infected individuals. When <span class="math inline">\(\theta = 1\)</span> disease transmission is a function of the prevalence (<em>i.e.</em> frequency dependent transmission).</p>
+<p>While the underlying CWD model functions use <span class="math inline">\(\beta\)</span>, in this shiny application we ask the user to input the direct <span class="math inline">\(R_0\)</span> per year, which we define as the expected number of individuals to be infected by an infected individual in a completely susceptible population in one year. This is because <span class="math inline">\(\theta\)</span> has a strong effect on the overall transmission rate, such that a small increase in <span class="math inline">\(\theta\)</span> would require the large decrease <span class="math inline">\(\beta\)</span> to result in a similar prevalence over time. Based on <span class="math inline">\(\theta\)</span> and the per year direct <span class="math inline">\(R_0\)</span> the shiny app then calculates the appropriate <span class="math inline">\(\beta\)</span> value to pass to the model simulation. Note that direct <span class="math inline">\(R_0\)</span> <em>per year</em> is not the same as the typical <span class="math inline">\(R_0\)</span> which is based on the entire duration of the infectious period, which may be several years. We used this per year <span class="math inline">\(R_0\)</span> because the traditional <span class="math inline">\(R_0\)</span> is a function of the other user-inputs hunting and natural mortality. The direct per year <span class="math inline">\(R_0\)</span> may be less than one and CWD may still increase in the population if individuals are likely to survive with the disease for many years. Also note that the environmental transmission component is not included in that user-input of the direct <span class="math inline">\(R_0\)</span>. Based on these inputs the shiny app calculates <span class="math inline">\(\beta\)</span> for the simulation.</p>
+<p>The model allows for males and females to have differing susceptibility to becoming infected. The user inputs the relative male infections rate, <span class="math inline">\(\gamma\)</span>, and <span class="math inline">\(\beta_m = \beta_f\gamma\)</span>, so that if <span class="math inline">\(\gamma=1\)</span> then females and males are equally likely to become infected.</p>
+<p>A constant probability of disease induced mortality per time step results in a negative binomial distribution of time until death, whereby most individuals die of disease very quickly and a few survive for a very long time. We used a box-car modeling approach to create a bell-shaped distibution of time until disease induced death where most individuals are likely to survive for a year but few are likely to survive past five. In the box-car approach the infected category is divided into a number of identical sub-categories that an individual must pass through prior to disease-induced mortality occurring. We chose 10 sub-categories. The rate of movement from sub category 1 to 10 then determines the time until death as all individuals die once they leave the 10th category. A probability or proportion of 0.43 moving makes the time to disease-induced death about two years. The user can look at how this index, <em>p</em>, of disease mortality is related to time until death in the Plots/Parameters tab.</p>
+<p>The relative hunting risk is the ratio of the probability of an infected vs. uninfected individuals being harvested. When the relative risk is greater than one, infected individuals are more likely likely to be harvested relative to the background prevalence, which may be due to the behavior of infected individuals or management strategies that target hot-spots of infection.</p>
+<p><em>Hunting parameters</em></p>
+<p>The hunting parameters define the annual proportion/probability of each sex and age class that is hunted per year. A value of 0.1 represents 10% of sex and age class.</p>
+<p><em>Simulation parameters</em></p>
+<p>Finally, the initial conditions for CWD prevalence, population size and number of years to run the simulation are available in the simulations tab.</p>
+<p><em>Variance parameters</em></p>
+<p>The parameters in the stochastic model are the same as the deterministic model with the exception of the number of simulations to be run (Simulation tab) and the variance parameters. The Plots/Parameters tab within the stochastic model page allows the user to view how different mean and variances on natural and hunting mortality affect overall annual survival.</p>
 </div>
-<div id="stochasticity" class="section level3">
-<h3>Stochasticity</h3>
-<p>We currently allow for both environmental and demographic stochasticity in the model. Vital rates and the percent hunted in each age category are pulled annually from a Beta distribution so that the probabilities are constrained between 0 and 1. The <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> parameters of the Beta distribution relate to the mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> as follows: <span class="math inline">\(\alpha=\left(\frac{1-\mu}{\sigma^2}-\frac{1}{\mu}\right)\mu^2\)</span> and <span class="math inline">\(\beta=\alpha\left(\frac{1}{\mu}-1\right)\)</span>. In every monthly time step, binomial draws are done to determine reproduction, survival, transmission, mortality, and the movement of infected individuals among subcategories.</p>
+<div id="model-structure" class="section level3">
+<h3>Model Structure</h3>
+<p>The underlying model is a discrete time model with a monthly timestep. Each simulation begins in May with all births occurring in June and all hunting occurring in November. The model tracks sex and ages of individuals in susceptible (<span class="math inline">\(S\)</span>) and infectious (<span class="math inline">\(I\)</span>) categories to allow for hunting strategies that may target different sex and age groups, and may be preferential to infectious individuals.</p>
+<p>The order of operations in the model is as follows: aging, reproduction, natural mortality, hunting mortality, disease mortality, and disease transmission. Thus, in November when hunting occurs in the model, we assume that the percentage, or probability of, being hunting is independent of natural mortality and individuals are only hunted if they have first survived other natural causes of death. Since only a small fraction of the population is likely to die of natural causes during one month, this ordering issue is unlikely to be a significant issue. Biologically, different forms of mortality are often correlated, but for modelling purposes we assumed that changing one parameter does not affect any others.</p>
+<p>We assume there is no density dependence in any of the survival or reproduction rates. As a result, host population size will increase or decrease exponentially. However, the intent of the model is to be useful over time spans of five to ten years. To initiate the model we construct an annual time step Leslie matrix population model using the reproduction, natural survival and hunting rates. We then calculate the stable stage distribution and assume that all age classes have equal disease prevalence at the start of the simulation.</p>
 </div>
 <div id="plots" class="section level3">
 <h3>Plots</h3>
-<p>For plotting purposes we sub-sample the entire monthly time series to include only one month per year to avoid displaying the within-year variation. Total population size is plotted for February. The male:female ratio is sampled in December, and the fawn:doe ratio taken at the end of the biological year in April. Prevalence information is sampled in November. Note that the error bars shown in the stochastic plots are the 5% and 95% quantiles, which may not be estimated well if only a few simulations are run.</p>
-</div>
-<div id="code-and-implementation" class="section level3">
-<h3>Code and Implementation</h3>
-<p>Code was written using R version 3.4.4 (R Foundation for Statistical Computing, Vienna, AT; www.R-project.org) and the Shiny package version 1.3.2 (Chang et al. 2017). The other packages used were:</p>
-<ul>
-<li>reshape2: version 1.4.3<br />
-</li>
-<li>popbio: version 2.4.4<br />
-</li>
-<li>magrittr: version 1.5<br />
-</li>
-<li>tidyverse: version 1.2.1<br />
-</li>
-<li>cowplot: version 0.9.4</li>
-<li>ggridges: version 0.5.1<br />
-</li>
-<li>knitr: version 1.2.3<br />
-</li>
-<li>shinydashboard: version 0.7.1</li>
-</ul>
-<p>All of the source code is available at <a href="https://github.com/pcross-usgs/CWD-shiny" class="uri">https://github.com/pcross-usgs/CWD-shiny</a>.</p>
+<p>The model sub-samples the monthly time series output to include only one month per year to avoid displaying the within-year variation. The months used for the plots are intended to be in rough agreement with when those data tend to be collected in the field. Total population size is plotted for February. The male:female ratio is sampled in December, and the fawn:doe ratio is taken at the end of the biological year in April. Prevalence data comes from November. The error bars shown in the stochastic plots are the 5% and 95% quantiles, which may not be estimated well if only a few simulations are run.</p>
+<p><span class="math inline">\(R_0\)</span> is the expected number of individuals that would be infected by a single infectious individual in a completely susceptible population. It has the useful threshold property, such that if it is less than one the disease cannot invade the population, and this can be used to assess different management actions. <span class="math inline">\(R_0\)</span> is an aggregate function of transmission, survival and recovery rates. In these models, <span class="math inline">\(R_0\)</span> is challenging to calculate because transmission is both direct and indirect. In addition, males and females are differentially susceptible. As an approximation, the model calculates as an output <span class="math inline">\(R_0\)</span> for direct transmission only for males and females. Those calculations are provided below the plots. Those <span class="math inline">\(R_0\)</span> calculations differ from the user input of direct <span class="math inline">\(R_0\)</span> per year by incorporating the natural, hunting and disease induced mortality. These calculations also assume that the initial individual is an adult.</p>
+<p><em>Comparison plots</em></p>
+<p>Additional comparison plots are provided at the bottom of the deterministic and stochastic comparison pages. Scenario A comes from the parameters provided on the left-hand side of the page, while Scenario B comes from the right-hand side. Some management actions may have different consequences in the short and long term. The total population size and prevalence are plotted for the last year of the model. However, the number of hunted individuals is shown both for the last year of the model as well as the cumulative amount over the entire simulation.</p>
+<p>Finally, at the bottom of the stochastic comparison page, there are some statistical comparisons of the two scenarios.</p>
 </div>
 <div id="citation" class="section level3">
 <h3>Citation</h3>
@@ -560,18 +565,6 @@ summary {
 <p><em>Contact:</em> For technical assistance or to report outages, please contact <a href="mailto:pcross@usgs.gov" class="email">pcross@usgs.gov</a></p>
 <p><em>Disclaimers</em>: Although these data have been processed successfully on a computer system at the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data for other purposes, nor on all computer systems, nor shall the act of distribution constitute any such warranty. The USGS or the U.S. Government shall not be held liable for improper or incorrect use of the data described and/or contained herein.</p>
 <p>Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.</p>
-</div>
-<div id="references" class="section level3">
-<h3>References</h3>
-<p>Chang, W, J Cheng, JJ Allaire, Y Xie, and J McPherson 2017. shiny: Web Application Framework for R. R package version 1.0.5. <a href="https://CRAN.R-project.org/package=shiny" class="uri">https://CRAN.R-project.org/package=shiny</a></p>
-<p>Chang, W, and BB Ribeiro 2018. shinydashboard: Create Dashboards with ‘Shiny’. R package version 0.7.0. <a href="https://CRAN.R-project.org/package=shinydashboard" class="uri">https://CRAN.R-project.org/package=shinydashboard</a></p>
-<p>R Core Team 2018. R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a>.</p>
-<p>Stubben, C.J. and Milligan, B.G. 2007. Estimating and Analyzing Demographic Models Using the popbio Package in R. Journal of Statistical Software 22:11.</p>
-<p>Wickham, H 2017. tidyverse: Easily Install and Load the ‘Tidyverse’. R package version 1.2.1. <a href="https://CRAN.R-project.org/package=tidyverse" class="uri">https://CRAN.R-project.org/package=tidyverse</a></p>
-<p>Wickham, H 2007. Reshaping Data with the reshape Package. Journal of Statistical Software, 21(12), 1-20. URL <a href="http://www.jstatsoft.org/v21/i12/" class="uri">http://www.jstatsoft.org/v21/i12/</a>.</p>
-<p>Wilke, CO 2017. cowplot: Streamlined Plot Theme and Plot Annotations for ‘ggplot2’. R package version 0.9.2. <a href="https://CRAN.R-project.org/package=cowplot" class="uri">https://CRAN.R-project.org/package=cowplot</a></p>
-<p>Wilke, CO 2018. ggridges: Ridgeline Plots in ‘ggplot2’. R package version 0.5.1. <a href="https://CRAN.R-project.org/package=ggridges" class="uri">https://CRAN.R-project.org/package=ggridges</a></p>
-<p>Xie, Y 2018. knitr: A General-Purpose Package for Dynamic Report Generation in R. R package version 1.20.</p>
 </div>
 </div>
 
