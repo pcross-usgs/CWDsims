@@ -35,8 +35,6 @@ library(CWDsims)
 launchCWDapp()
 ```
 
-Apple users may need to first install xQuartz to avoid a sys.font error. 
-
 Some users may be interested in storing output associated with the different models so that more detailed analyses and comparisons can be done. Below is a quick workflow for how to use some of the functions in 'CWDsims'.
 
 ```{r workflow, echo=TRUE, eval=FALSE}

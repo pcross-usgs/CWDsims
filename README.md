@@ -65,6 +65,7 @@ library(devtools)
 # install "CWDsims" from github
 install_github("pcross-usgs/CWDsims", build_vignettes = TRUE)
 ```
+Apple users may need to first install xQuartz to avoid a sys.font error. 
 
 ### Disclaimer ###
 
