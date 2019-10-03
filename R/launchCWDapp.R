@@ -4,6 +4,7 @@
 #' @examples 
 #' launchCWDapp("CWDapp")
 #' launchCWDapp("CWDapp_wiw")
+#' 
 #' @export
 #'
 

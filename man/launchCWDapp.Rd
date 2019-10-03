@@ -15,4 +15,5 @@ launches the shinyCWDApp
 \examples{
 launchCWDapp("CWDapp")
 launchCWDapp("CWDapp_wiw")
+
 }
