@@ -56,8 +56,13 @@ To install the dataRetrieval package, you must be using R 3.0 or greater and ins
 Install from GitHub using the `devtools` packages:
 
 ```r
+# install devtools if you don't have it already (otherwise skip next line)
 install.packages("devtools")
+
+# load the library
 library(devtools)
+
+# install "CWDsims" from github
 install_github("pcross-usgs/CWDsims", build_vignettes = TRUE)
 ```
 
@@ -69,6 +74,4 @@ Although this software program has been used by the U.S. Geological Survey (USGS
 
 This software is provided "AS IS."
 
-[
-    ![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)
-  ](http://creativecommons.org/publicdomain/zero/1.0/)
+[![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)
