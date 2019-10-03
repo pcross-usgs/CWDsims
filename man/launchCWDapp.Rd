@@ -4,8 +4,15 @@
 \alias{launchCWDapp}
 \title{launches the shinyCWDApp}
 \usage{
-launchCWDapp()
+launchCWDapp(example)
+}
+\arguments{
+\item{example}{name of the application to run}
 }
 \description{
 launches the shinyCWDApp
+}
+\examples{
+launchCWDapp("CWDapp")
+launchCWDapp("CWDapp_wiw")
 }
