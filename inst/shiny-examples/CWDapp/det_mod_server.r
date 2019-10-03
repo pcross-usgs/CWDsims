@@ -107,8 +107,8 @@ det_mod_server <- function(input, output, session){
 
   output$PrevPlot <- renderPlot({
     out <- simout()
-    p1 <- plot_prev_time(out$counts, ylim = c(0,1))
-    p2 <- plot_prev_age_end(out$counts, ylim = c(0,1))
+    p1 <- plot_prev_time(out$counts)
+    p2 <- plot_prev_age_end(out$counts)
     plot_grid(p1, p2, nrow = 1)
   })
 

@@ -23,8 +23,7 @@ compare_stoch_plots_server <- function(input, output, session, simout){
 
       output$PrevPlot <- renderPlot({
         out <- simout()
-        p1 <- plot_stoch_prev(out$counts, all.lines = T, error.bars = T,
-                              cis <- c(0.05, 0.95))
+        p1 <- plot_stoch_prev(out$counts, all.lines = T, error.bars = c(0.05, 0.95))
         p2 <- plot_stoch_prev_age_end(out$counts, error.bars = c(0.05, 0.95))
         plot_grid(p1, p2, nrow = 1)
       })

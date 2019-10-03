@@ -1,9 +1,3 @@
-#' Shiny app server function
-#'
-#' @param input provided by shiny
-#' @param output provided by shiny
-#' @param session provided by shiny
-#'
 
 server <- function(input, output, session) {
   callModule(stoch_mod_server, id = "stoch")
