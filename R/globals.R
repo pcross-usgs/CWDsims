@@ -9,4 +9,4 @@ utils::globalVariables(c(
   "n.age.cats", "n.years", "n0", "nat.p", "population", "prev",
   "prevalence", "rel.risk", "repro.var", "scenario", "sex", "sex.age", "sim",
   "sur.var", "theta", "year", "years.to.death", 'CWD', "category", "no", "p",
-  "parameter", "percent", "stoch.params", "total", "value", "yes"))
+  "parameter", "percent", "stoch.params", "total", "value", "yes", "beta.ff"))
