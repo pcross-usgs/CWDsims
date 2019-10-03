@@ -37,6 +37,124 @@ cwd_det_model <- function(params) {
   # write the list objects to the local environment
   for (v in 1:length(params)) assign(names(params)[v], params[[v]])
 
+  # check if parameters exist.    
+  if(exists("fawn.an.sur")==FALSE){
+    message("fawn survival is missing, using default value")
+    fawn.an.sur <- 0.6
+  }
+  
+  if(exists("juv.an.sur")==FALSE){
+    message("juvenile survival is missing, using default value")
+    juv.an.sur <- 0.8
+  }
+  
+  if(exists("ad.an.f.sur")==FALSE){
+    message("adult female survival is missing, using default value")
+    ad.an.f.sur <- 0.95
+  }
+  
+  if(exists("ad.an.m.sur")==FALSE){
+    message("adult male survival is missing, using default value")
+    ad.an.m.sur <- 0.9
+  }
+  
+  if(exists("fawn.repro")==FALSE){
+    message("fawn repro is missing, using default value")
+    fawn.repro <- 0
+  }
+  
+  if(exists("juv.repro")==FALSE){
+    message("juvenile repro is missing, using default value")
+    juv.repro <- 0.6
+  }
+  
+  if(exists("ad.repro")==FALSE){
+    message("adult repro is missing, using default value")
+    ad.repro <- 1
+  }
+  
+  if(exists("hunt.mort.fawn")==FALSE){
+    message("fawn hunting mortality is missing, using default value")
+    hunt.mort.fawn <- 0.01
+  }
+  
+  if(exists("hunt.mort.juv.f")==FALSE){
+    message("juv. female  hunting mortality is missing, using default value")
+    hunt.mort.juv.f <- 0.1
+  }
+  if(exists("hunt.mort.juv.m")==FALSE){
+    message("juv. male hunting mortality is missing, using default value")
+    hunt.mort.juv.m <- 0.1
+  }
+  
+  if(exists("hunt.mort.ad.f")==FALSE){
+    message("adult female hunting mortality is missing, using default value")
+    hunt.mort.ad.f <- 0.2
+  }
+  if(exists("hunt.mort.ad.m")==FALSE){
+    message("adult male hunting mortality is missing, using default value")
+    hunt.mort.ad.m <- 0.2
+  }
+  if(exists("ini.fawn.prev")==FALSE){
+    message("initial fawn prevalence is missing, using default value")
+    ini.fawn.prev <- 0.01
+  }
+  if(exists("ini.juv.prev")==FALSE){
+    message("initial juvenile prevalence is missing, using default value")
+    ini.juv.prev <- 0.03
+  }
+  if(exists("ini.ad.f.prev")==FALSE){
+    message("initial adult female prevalence is missing, using default value")
+    ini.ad.f.prev <- 0.04
+  }
+  if(exists("ini.ad.m.prev")==FALSE){
+    message("initial adult male prevalence is missing, using default value")
+    ini.ad.m.prev <- 0.04
+  }
+  if(exists("n.age.cats")==FALSE){
+    message("# of age categories is missing, using default value")
+    n.age.cats <- 12
+  }
+  
+  if(exists("p")==FALSE){
+    message("disease mortality index p is missing, using default value")
+    p <- 0.43
+  }
+  if(exists("env.foi")==FALSE){
+    message("indirect transmission env.foi is missing, using default value")
+    env.foi <- 0
+  }
+  
+  if(exists("beta.f")==FALSE){
+    message("female transmission beta.f is missing, using default value")
+    beta.f <- 0.05
+  }
+  
+  if(exists("beta.m")==FALSE){
+    message("male transmission beta.m is missing, using default value")
+    beta.m <- 0.1
+  }
+  
+  if(exists("theta")==FALSE){
+    message("theta is missing, using default value")
+    theta <- 1
+  }
+  
+  if(exists("n0")==FALSE){
+    message("initial population size n0 is missing, using default value")
+    n0 <- 1000
+  }
+  
+  if(exists("n.years")==FALSE){
+    message("n.years is missing, using default value")
+    n.years <- 10
+  }
+  
+  if(exists("rel.risk")==FALSE){
+    message("rel.risk is missing, using default value")
+    rel.risk <- 1
+  }
+  
   ######### CREATE INITIAL CONDITIONS########## monthly index
   months <- seq(1, n.years * 12)  # monthly timestep
   hunt.mo <- rep(0, n.years * 12)  # months in where the hunt occurs
