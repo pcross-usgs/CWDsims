@@ -1,9 +1,6 @@
 #' launches the shinyCWDApp
 #' @param example name of the application to run
 #' 
-#' @examples 
-#' launchCWDapp("CWDapp")
-#' launchCWDapp("CWDapp_wiw")
 #' 
 #' @export
 #'
