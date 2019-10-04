@@ -24,20 +24,18 @@ Imports:
     cowplot (>= 1.0.0),
     dplyr (>= 0.8.3),
     forcats (>= 0.4.0),
-    hexSticker (>= 0.4.6),
-    ggplot2 (>= 3.2.1),
-    ggridges (>= 0.5.1),
+    ggplot2 (>= 3.0.0),
+    ggridges (>= 0.5.0),
     knitr (>= 1.25),
-    magrittr (>= 1.5),
-    markdown (>= 1.1),
-    popbio (>= 2.6),
-    reshape2 (>= 1.4.3),
-    shiny (>= 1.3.2),
-    shinydashboard (>= 0.7.1),
+    magrittr (>= 1.2),
+    markdown (>= 1.0),
+    plyr (>= 1.8.0),
+    popbio (>= 2.0),
+    reshape2 (>= 1.4.0),
+    shiny (>= 1.3.0),
+    shinydashboard (>= 0.7.0),
     tidyr (>= 1.0.0),
-    plyr (>= 1.8.4),
-    stringr (>= 1.4.0),
-    stats (>= 3.0.0)
+    stringr (>= 1.4.0)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
