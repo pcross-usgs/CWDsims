@@ -20,7 +20,7 @@ launchApp <- function(example) {
   if (missing(example) || !nzchar(example) ||
       !example %in% validExamples) {
     stop(
-      'Please run `launchapp()` with a valid example app as an argument.\n',
+      'Please run `launchApp()` with a valid example app as an argument.\n',
       validExamplesMsg,
       call. = FALSE)
   }
