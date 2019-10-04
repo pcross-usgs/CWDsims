@@ -50,7 +50,7 @@ cwd_stoch_model_wiw <- function(params) {
   for (v in 1:length(params)) assign(names(params)[v], params[[v]])
 
   
-  # check if parameters exist.    
+###### check if parameters exist.####
   if(exists("fawn.an.sur")==FALSE){
     message("fawn survival is missing, using default value")
     fawn.an.sur <- 0.6
@@ -102,7 +102,7 @@ cwd_stoch_model_wiw <- function(params) {
   
   if(exists("hunt.mort.ad.f")==FALSE){
     message("adult female hunting mortality is missing, using default value")
-    hunt.mort.ad.f <- 0.2
+    hunt.mort.ad.f <- 0.1
   }
   if(exists("hunt.mort.ad.m")==FALSE){
     message("adult male hunting mortality is missing, using default value")
@@ -192,7 +192,58 @@ cwd_stoch_model_wiw <- function(params) {
     message("gamma.mf is missing, using default value")
     gamma.mf <- 1
   }
+
+  ###### check parameter values ###
+  if(fawn.an.sur <= 0) warning("fawn survival must be positive")
+  if(fawn.an.sur > 1) warning("fawn survival must be <= 1")
+  if(juv.an.sur <= 0) warning("juvenile survival must be positive")
+  if(juv.an.sur > 1) warning("juvenile survival must be <= 1")
+  if(ad.an.f.sur <= 0) warning("adult female survival must be positive")
+  if(ad.an.f.sur > 1) warning("adult female survival must be <= 1")
   
+  if(fawn.repro < 0) warning("fawn.repro must be positive")
+  if(juv.repro <= 0) warning("juv.repro must be >= 0 ")
+  if(ad.repro  <= 0) warning("ad.repro must be >= 0 ")
+  
+  if(hunt.mort.fawn <= 0) warning("hunt.mort.fawn must be >0")
+  if(hunt.mort.fawn >= 1) warning("hunt.mort.fawn must be < 1")
+  if(hunt.mort.juv.f <= 0) warning("hunt.mort.juv.f must be >0")
+  if(hunt.mort.juv.f >= 1) warning("hunt.mort.juv.f must be < 1")
+  if(hunt.mort.juv.m <= 0) warning("hunt.mort.juv.m must be >0")
+  if(hunt.mort.juv.m >= 1) warning("hunt.mort.juv.m must be < 1")
+  if(hunt.mort.ad.f <= 0) warning("hunt.mort.ad.f must be >0")
+  if(hunt.mort.ad.f >= 1) warning("hunt.mort.ad.f must be < 1")
+  if(hunt.mort.ad.m <= 0) warning("hunt.mort.ad.m must be >0")
+  if(hunt.mort.ad.m >= 1) warning("hunt.mort.ad.m must be < 1")
+  
+  if(ini.fawn.prev < 0) warning("ini.fawn.prev must >=0")
+  if(ini.fawn.prev > 1) warning("ini.fawn.prev must be <= 1")
+  if(ini.juv.prev < 0) warning("ini.juv.prev must >=0")
+  if(ini.juv.prev > 1) warning("ini.juv.prev must be <= 1")
+  if(ini.ad.f.prev < 0) warning("ini.ad.f.prev must >=0")
+  if(ini.ad.f.prev > 1) warning("ini.ad.f.prev must be <= 1")
+  if(ini.ad.m.prev < 0) warning("ini.ad.m.prev must >=0")
+  if(ini.ad.m.prev > 1) warning("ini.ad.m.prev must be <= 1")
+  
+  if(n.age.cats < 3) warning("n.age.cats must be 3 or more")
+  if(p < 0) warning("p must be between 0 and 1")
+  if(p > 1) warning("p must be between 0 and 1")
+  if(env.foi < 0) warning("env.foi must be between 0 and 1")
+  if(env.foi > 1) warning("env.foi must be between 0 and 1")
+  if(beta.ff < 0) warning("beta.ff cannot be negative")
+  if(n0 <= 0) warning("n0 must be positive")
+  if(n.years <= 0) warning("n.years must be positive")
+  if(rel.risk <= 0) warning("n.years must be positive")
+  
+  if(repro.var <= 0) warning("repro.var must be positive")
+  if(fawn.sur.var <= 0) warning("fawn.sur.var must be positive")
+  if(sur.var <= 0) warning("sur.var must be positive")
+  if(hunt.var <= 0) warning("hunt.var must be positive")
+  
+  if(gamma.mm <= 0) warning("repro.var must be positive")
+  if(gamma.fm <= 0) warning("fawn.sur.var must be positive")
+  if(gamma.mf <= 0) warning("sur.var must be positive")
+
   # the gender specific transmission terms are offsets from the female to female term
   beta.mm <- beta.ff*gamma.mm
   beta.mf <- beta.ff*gamma.mf
