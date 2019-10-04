@@ -37,11 +37,11 @@
 #' out.a <- cwd_stoch_wrapper(params.a, nsims = 20)
 #' out.b <- cwd_stoch_wrapper(params.b, nsims = 20)
 #' 
-#' plot_compare_all(out.a, out.b)
+#' plot_compare_all_stoch(out.a, out.b)
 #'
 #' @export
 
-plot_compare_all <- function(outa, outb){
+plot_compare_all_stoch <- function(outa, outb){
   if(missing(outa)==TRUE) warning("missing scenario a data to plot")
   if(missing(outb)==TRUE) warning("missing scenario b data to plot")  
   outcount <- list(outa$counts, outb$counts)
