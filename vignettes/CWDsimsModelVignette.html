@@ -287,10 +287,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <table>
 <colgroup>
 <col width="14%"></col>
-<col width="17%"></col>
+<col width="16%"></col>
 <col width="10%"></col>
-<col width="19%"></col>
-<col width="38%"></col>
+<col width="20%"></col>
+<col width="37%"></col>
 </colgroup>
 <thead>
 <tr class="header">
@@ -376,7 +376,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td></td>
 <td>transmission coefficient</td>
 <td><span class="math inline">\(\beta_{i}\)</span></td>
-<td>beta.f = 0.05, beta.m = 0.1</td>
+<td>beta.f = 0.08, beta.m = 0.08</td>
 <td>direct transmission</td>
 </tr>
 <tr class="even">
@@ -395,24 +395,24 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr class="even">
 <td></td>
-<td>male to female transmission</td>
-<td><span class="math inline">\(\beta_{mf}\)</span></td>
-<td>beta.mf</td>
-<td>used in “wiw” models</td>
+<td>male to female scaling</td>
+<td><span class="math inline">\(\gamma_{mf}\)</span></td>
+<td>gamma.mf = 1</td>
+<td><span class="math inline">\(\beta_{mf} = \beta_{ff} \gamma_{mf}\)</span> in “wiw” models</td>
 </tr>
 <tr class="odd">
 <td></td>
-<td>female to male transmission</td>
-<td><span class="math inline">\(\beta_{fm}\)</span></td>
-<td>beta.fm</td>
-<td>used in “wiw” models</td>
+<td>female to male scaling</td>
+<td><span class="math inline">\(\gamma_{fm}\)</span></td>
+<td>gamma.fm = 1</td>
+<td><span class="math inline">\(\beta_{fm} = \beta_{ff} \gamma_{fm}\)</span> in “wiw” models</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>male to male transmission</td>
-<td><span class="math inline">\(\beta_{mm}\)</span></td>
-<td>beta.fm</td>
-<td>used in “wiw” models</td>
+<td><span class="math inline">\(\gamma_{mm}\)</span></td>
+<td>gamma.mm = 2</td>
+<td><span class="math inline">\(\beta_{mm} = \beta_{ff} \gamma_{mm}\)</span> in “wiw” models</td>
 </tr>
 <tr class="odd">
 <td></td>
