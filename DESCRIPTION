@@ -2,6 +2,7 @@ Package: CWDsims
 Type: Package
 Title: CWDsims: An R package for simulating chronic wasting disease scenarios
 Version: 0.1.0
+Date: 2019-12-1
 Authors@R: c(
     person("Paul", "Cross", role = c("aut","cre"),
     email = "pcross@usgs.gov",
@@ -18,7 +19,7 @@ Copyright: This software is in the public domain because it contains materials
     that originally came from the United States Geological Survey, an agency of
     the United States Department of Interior.
 Depends:
-    R (>= 3.6)
+    R (>= 3.4)
 Imports:
     cowplot (>= 1.0.0),
     dplyr (>= 0.8.3),

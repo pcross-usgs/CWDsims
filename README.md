@@ -11,6 +11,43 @@ https://paulchafeecr.shinyapps.io/comb_app_v2_CWD/
 
 However, we recommend running the program locally in R for better performance. 
 
+### Installation ###
+
+Install from GitHub using the `devtools` packages:
+
+```r
+# install devtools if you don't have it already (otherwise skip next line)
+install.packages("devtools")
+
+# load the library
+library(devtools)
+```
+Note some Mac users may need to first install xQuartz. Next install "CWDsims" from GitHub.  
+
+```r
+# install "CWDsims" from github
+install_github("pcross-usgs/CWDsims", build_vignettes = TRUE)
+```
+This may prompt you to update some of the necessary packages. Press "1" to update all packages. In some cases, the compilation of the *later* package has failed. If this occurs, re-run the install_github command above and when prompted
+
+> Do you want to install from sources the package which needs compilation? (Yes/no/cancel)
+
+Type "no"
+
+### Introductory material
+
+Once "CWDsims" is installed, you can find more introductory material about the package in the vignettes. 
+
+```r
+vignette(package = "CWDsims") # all vignettes available
+vignette("CWDsimsIntroVignette") # load the introduction
+```
+For a list of the available functions: 
+
+```r
+?CWDsims
+```
+
 ### Reporting bugs ###
 
 Please consider reporting bugs and asking questions on the Issues page:
@@ -22,33 +59,6 @@ Follow `@USGS_R` on Twitter for updates on USGS R packages:
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/USGS_R.svg?style=social&label=Follow%20USGS_R)](https://twitter.com/USGS_R)
 
-### Installation ###
-
-Install from GitHub using the `devtools` packages:
-
-```r
-# install devtools if you don't have it already (otherwise skip next line)
-install.packages("devtools")
-
-# load the library
-library(devtools)
-
-# install "CWDsims" from github
-install_github("pcross-usgs/CWDsims", build_vignettes = TRUE)
-```
-Apple users may need to first install xQuartz to avoid a sys.font error.  
-
-For a brief introduction to the package look at the CWDsims introduction vignette.  
-
-```r
-vignette(package = "CWDsims") # all vignettes available
-vignette("CWDsimsIntroVignette") # load the introduction
-```
-For a list of the available functions: 
-
-```r
-?CWDsims
-```
 ### Citing CWDsims ###
 
 ``` r
