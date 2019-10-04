@@ -38,7 +38,7 @@ det_mod_server <- function(input, output, session){
          #calculate beta from r0_female
          #R0_per year * n^theta-1 / 12 months
          beta.f = (input$r0_peryear  * input$n0^(input$theta-1))/ 12,
-         beta.m = input$gamma.m * input$beta.f,
+         beta.m = input$gamma.m *(input$r0_peryear  * input$n0^(input$theta-1))/ 12,
          theta = input$theta,
          n0 = input$n0,
          n.years = input$n.years,
