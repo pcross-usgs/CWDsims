@@ -11,7 +11,7 @@ compare_stoch_plots_server2 <- function(input, output, session, simout_a, simout
   output$ComparePlot <- renderPlot({
         outa <- simout_a()
         outb <- simout_b()
-        plot_compare_all(outa, outb)
+        plot_compare_all_stoch(outa, outb)
   })
 
   output$CompareText <- renderUI({

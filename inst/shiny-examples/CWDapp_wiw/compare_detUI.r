@@ -36,7 +36,7 @@ compare_detUI <- function(id) {
              numericInput(ns("gamma.mm"), "Relative male-male transmission",
                           value = 2, min = 0.2, max = 5, step = 0.1),
              numericInput(ns("gamma.mf"), "Relative male-female transmission",
-                          value = 2, min = 0.2, max = 5, step = 0.1),
+                          value = 1, min = 0.2, max = 5, step = 0.1),
              numericInput(ns("gamma.fm"), "Relative female-male transmission",
                           value = 1, min = 0.5, max = 5, step = 0.1)),
       column(3,

@@ -26,11 +26,9 @@ There are four other pages in this application that can be accessed via the tabs
 | |  | |  | |
 |Transmission    | environmental transmission| $\epsilon$ | env.foi = 0 | annual probability from 0 to 1 |
 |                | female to female transmission  | $\beta_{ff}$ | beta.ff = 0.05 | used in "wiw" models |
-|                | male to female transmission  | $\beta_{mf}$ | beta.mf |$\beta_{mf} = \beta_{ff}\gamma_{mf}$ |
-|                | female to male transmission  | $\beta_{fm}$ | beta.fm |$\beta_{fm} = \beta_{ff}\gamma_{fm}$  |
-|                | male to male transmission  | $\beta_{mm}$ | beta.fm | $\beta_{mm} = \beta_{ff}\gamma_{mm}$  |
-|                | scaling parameters  | $\gamma_{ij}$ | gamma.mf, gamma.fm, gamma.mm | |
-
+|                | male to female scaling  | $\gamma_{mf}$ | gamma.mf = 1 | $\beta_{mf} = \beta_{ff} \gamma_{mf}$ in "wiw" models |
+|                | female to male scaling  | $\gamma_{fm}$ | gamma.fm = 1 | $\beta_{fm} = \beta_{ff} \gamma_{fm}$  in "wiw" models |
+|                | male to male transmission  | $\gamma_{mm}$ | gamma.mm = 2 | $\beta_{mm} = \beta_{ff} \gamma_{mm}$ in "wiw" models |
 |                | mixing parameter  | $\theta$ | theta = 1 | $\theta = 1$ is frequency dependent transmission, $\theta = 0$ is density dependent transmission. Can be intermediate. |
 | |  | |  | |
 |Stochasticity   | vital rate variation  | $\sigma^2$ |repro.var = 0.005, fawn.sur.var = 0.005, sur.var = 0.005, hunt.var = 0.005| variance for the survival, hunting and reproduction rates |

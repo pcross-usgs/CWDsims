@@ -20,7 +20,7 @@ compare_det_server <- function(input, output, session){
 
         #convert from r0_peryear to beta
         beta.f = (input$r0_peryear  * input$n0 ^ (input$theta-1)) / 12,
-        beta.m = input$beta.m,
+        beta.m = input$gamma.m * input$beta.f,
         theta = input$theta,
 
         ini.fawn.prev = input$ini.fawn.prev,

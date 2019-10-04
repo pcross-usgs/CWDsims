@@ -24,7 +24,7 @@ There are four other pages in this application that can be accessed via the tabs
 | | hunting relative risk | $RR$ | rel.risk = 1 | increase in hunting mortality associated with being CWD positive |
 | |  | |  | |
 |Transmission    | environmental transmission| $\epsilon$ | env.foi = 0 | annual probability from 0 to 1 |
-|                | transmission coefficient | $\beta_{i}$ | beta.f = 0.05, beta.m = 0.1 | direct transmission |
+|                | transmission coefficient | $\beta_{i}$ | beta.f = 0.08, beta.m = 0.08 | direct transmission |
 |                | relative male infection  | $\gamma$ | 2 | male transmission = $\beta_m = \beta_f \gamma$|
 |                | mixing parameter  | $\theta$ | theta = 1 | $\theta = 1$ is frequency dependent transmission, $\theta = 0$ is density dependent transmission. Can be intermediate. |
 | |  | |  | |
