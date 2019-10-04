@@ -93,7 +93,7 @@ plot_stoch_tots plot the total number of individuals over time
 plot_compare_all_det barplot to compare the output of two different 
   deterministic scenarios
 
-plot_compare_all density plot to compare the output of two different scenarios for
+plot_compare_all_stoch density plot to compare the output of two different scenarios for
   the stochastic model
 
 plot_compare_hunted density plot to look at how the number of hunted 
