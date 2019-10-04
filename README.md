@@ -6,8 +6,13 @@ This is a repository with R code for an interactive Shiny application of CWD dis
 
 ### Webpage for the shiny app ###
 
-To run the shiny application online rather than installing it locally you can go to:  
-https://paulchafeecr.shinyapps.io/comb_app_v2_CWD/
+To run the shiny application online rather than installing it locally you can go to the link below for the original models:  
+
+https://paulchafeecr.shinyapps.io/CWDapp/
+
+Or for models that allow for more sex-specific transmission rates
+
+https://paulchafeecr.shinyapps.io/CWDapp_wiw/
 
 However, we recommend running the program locally in R for better performance. 
 
