@@ -26,8 +26,12 @@ The `CWDsims` package was created as a decision-support tool for natural resourc
 
 For information on getting started in R and installing the package, see [Getting Started](#getting-started-in-r). 
 
-For details on how the CWD models are structured and parameterized see the CWDsims Model vignette.
+For details on how the CWD models are structured and parameterized see the CWDsims Model vignette 
 
+```r
+vignette("CWDsimsModelVignette") # load the introduction
+
+```
 In order to launch the interactive Shiny application on your local machine run the following:
 
 ```{r shinyapp, echo=TRUE, eval=FALSE}

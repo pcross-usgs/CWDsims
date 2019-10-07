@@ -27,7 +27,7 @@ install.packages("devtools")
 # load the library
 library(devtools)
 ```
-Note some Mac users may need to first install xQuartz. Next install "CWDsims" from GitHub.  
+Note some Mac users may need to first install xQuartz (https://www.xquartz.org). Next install "CWDsims" from GitHub.  
 
 ```r
 # install "CWDsims" from github
@@ -44,6 +44,7 @@ Type "no"
 Once "CWDsims" is installed, you can find more introductory material about the package in the vignettes. 
 
 ```r
+library(CWDsims)
 vignette(package = "CWDsims") # all vignettes available
 vignette("CWDsimsIntroVignette") # load the introduction
 ```
