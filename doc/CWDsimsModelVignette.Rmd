@@ -1,0 +1,101 @@
+---
+title: "CWDsims model structure vignette"
+author: "Paul C. Cross"
+date: "2019-10-2"
+output: rmarkdown::html_vignette
+
+vignette: >
+  %\VignetteIndexEntry{CWDsims model structure vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE, message=FALSE}
+library(knitr)
+library(CWDsims)
+options(continue=" ")
+options(width=60)
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.height = 7,
+                      fig.width = 7)
+```
+
+## Model structure ##
+
+There are two primary simulation models currently available in `CWDsims` that are deterministic and stochastic versions of one another. Both models are based on a discrete monthly timestep that begins in the month of May. The models assume that all births occur in June and all hunting occurs in November. The models track sex and ages of individuals in susceptible ($S$) and infectious ($I$) categories to allow for hunting strategies that may target different sex and age groups, and may be preferential to infectious individuals.
+
+The order of operations in the models is as follows: aging, reproduction, natural mortality, hunting mortality, disease mortality, and disease transmission. We assume that hunting mortality is conditional on first surviving through the natural mortality that occurs in the month of November. Similarly, all disease-induced mortality occurs after natural mortality. Since the timestep of the model is monthly only a small portion of the population is likely to die or be infected per month, thus the ordering events is is unlikely to be a significant issue. Biologically, different forms of mortality are often correlated (e.g., reducing hunting mortality may increase natural mortality due to density dependence and limited resources). However, the models assume that all input parameters are independent of one another. This simplifies user inputs and creates a what-you-input-is-what-you-get property whereby the input of, say, survival rate is constant and does not change over time. Related to this issue the models assume there is no density dependence in any of the survival or reproduction rates. As a result, host population size will increase or decrease exponentially. However, the intent of the model is to be useful over time spans of five to ten years.
+
+To initiate the models, we first calculate the stable stage distribution using a Leslie matrix population model and the user-provided reproduction, natural survival and hunting rates.
+
+### Stochasticity
+
+The stochastic model includes both environmental and demographic stochasticity. For environmental stochasiticity, annual natural and hunting mortality probabilities pulled from a Beta distribution for each year of the simulation. The $\alpha$ and $\beta$ parameters of the Beta distribution are not familiar to many users, we relate them to the mean $\mu$ and variance $\sigma^2$ as follows: $\alpha=\left(\frac{1-\mu}{\sigma^2}-\frac{1}{\mu}\right)\mu^2$ and
+$\beta=\alpha\left(\frac{1}{\mu}-1\right)$. For demographic stochasticity, the model includes binomial draws for reproduction, survival, transmission, mortality, and the movement of infected individuals among subcategories. These draws are conducted every timestep where that event may occur (e.g. monthly for survival and transmission, but annually for reproduction). The models currently assume that the transmission coeffi is a fixed constant and not
+variable from one year to the next.
+
+### Disease transmission
+
+The models allow for both direct (individual to individual) and indirect (*i.e.* environmental) transmission of the pathogen. The probability of direct transmission is $S \left( 1-e^{\left(\frac{\beta I}{N^{\theta}}\right)} \right)$, where $\beta$ is the transmission coefficient, $I$ and $N$ are the number of infectious individuals and the total number of individuals. $\theta$ determines how disease transmission is a function of the population size. When $\theta = 0$ disease transmission is a function of the number of infected individuals. When $\theta = 1$ disease transmission is a function of the prevalence (*i.e.* frequency dependent transmission).
+
+### Disease induced mortality
+
+The likelihood of disease induced mortality for an individual infected with CWD is likely to increase over time after becoming infected. Indivdiuals are unlikely to die due to disease early in their infection, but highly likely to have died after several years. We use a box-car approach to model disease induced mortality so that time until death is $\Gamma$ distribution and roughly bell-shaped. The box-car approach requires the splitting the infectious category into sub-categories. Individuals progressively move through the subcategories at a constant rate and then die when they leave the last category. The current models use 10 sub-categories. Users are unlikely to have an intuition about how the progression through these sub-categories defined by $\rho$ is related to the average time until disease-induced death. As a result, we include a plotting function and tab in the Shiny app to show this relationship.
+
+### Hunting
+
+The models allow hunting to preferentially kill positive individuals. The intent is to simulate the possibility of increased hunting in hot-spot areas. The user can input the "relative risk" of hunting positives. The relative risk  equals 1 in the case of no preference and positives are hunted in proportion to the background prevalence. Values above 1 indicate that hunters are more likely to kill CWD-positive individuals than would be expected given the prevalence. In the models, the proportion, or probabiltiy, of being hunted as well as the disease prevalence are both known. To distribute the hunter mortality among positives and negatives we can use the 2x2 contingency table of hunted vs not hunted and positive vs negative for disease shown below.
+
+*Table 1. Contingency table of hunting versus disease prevalence.*
+
+Table 1    | hunted     | not hunted  |totals    |
+-----------| --------- |------------ |--------- |
+positive   |A        |B          |G       |
+negative   |C        |D          |H       |
+total      |E        |F | |
+
+In Table 1 the marginal frequencies (*i.e.* the total number of positives, negatives, hunted and not hunted) are known via user inputs, but the values in the A, B, C, D cells must be calculated. The relative risk of hunting a positive individual is $RR = \frac{A / (A+B)}{C/(C+D)}$. In this case $RR$, the prevalence $G/(G+H)$, and the % hunted $E/(E+F)$ are known such that we can solve for A, B, C, and D. We assume that infected individuals are hunted equally across all sub-categories.
+
+### Additional parameter descriptions ###
+
+All survival rates are entered as annual probabilities or proportions depending on whether the model is deterministic or stochastic. Reproductive rates are entered as the number of total offspring per female per year, which can exceed 1 to account for the possibility of twins.
+
+Indirect environmental transmission is the annual probability of being infected from the environment, which we currently assume to be constant for the duration of the simulation.
+
+While the CWD model functions use $\beta$, in the shiny apps we ask the user to input the direct $R_0$ per year, which we define as the expected number of individuals to be infected by an infected individual in a completely susceptible population in one year. This is because $\theta$ has a strong effect on the overall transmission rate, such that a small increase in $\theta$ would require the large decrease $\beta$ to result in a similar prevalence over time. Based on $\theta$ and the per year direct $R_0$ the shiny app then calculates the appropriate $\beta$ value. Note that direct $R_0$ *per year* is not the same as the typical $R_0$ which is based on the entire duration of the infectious period, which may be several years. We used this per year $R_0$ because the traditional $R_0$ is a function of the other user-inputs hunting and natural mortality. The direct per year $R_0$ may be less than one and CWD may still increase in the population if individuals are likely to survive with the disease for many years. Also note that the environmental transmission component is not included in that user-input of the direct $R_0$.
+
+The models assume that males may be more likely to become infected than females. In the model functions $\beta_f$ and $\beta_m$ are independent parameters. However, in the shiny app the user inputs $\gamma$, whereby $\beta_m = \beta_f\gamma$ and if females and males are equally likely to become infected then $\gamma=1$.
+
+Finally, the relative hunting risk is the ratio of the probability of an infected vs. uninfected individuals being harvested. When the relative risk is greater than one, infected individuals are more likely likely to be harvested relative to the background prevalence, which may be due to the behavior of infected individuals or management strategies that target hot-spots of infection. The parameters in the stochastic model are the same with the exception of the number of simulations to be run.
+
+*Table 1. Parameters included in the models*
+
+|           | Parameter         | Symbol    | Code name |Comments|
+|----------------- | ----------------------- |----------   |---------------- | ----------------------------------------------|
+|State variables   | Susceptible       | $S_{i,a}$   | St.f, St.m |$i$ = sex, $a$ = age  |
+|                  | Infectious        | $I_{i,a, j}$ | It.f, It.m | $j$ = infectious sub-category from 1 to 10 |
+| |  | |  | |
+|Vital rates       | natural survival | $\delta_{i,a}$ |fawn.an.sur, juv.an.sur, ad.an.f.sur, ad.an.m.sur | entered as annual proportions and later converted to monthly |
+|                | reproduction      | $\alpha_{a>1}$|fawn.repro, juv.repro, ad.repro| may be greater than one to account for twins | 
+|                | hunting mortality | $\kappa_{i,a}$ |hunt.mort.fawn, hunt.mort.juv.f, hunt.mort.juv.m, hunt.mort.ad.f, hunt.mort.ad.m|  |
+|                | disease mortality | $\rho$ | p | dictates the rate of movement among infectious sub-categories |
+| | relative risk | $RR$ | rel.risk | increase in hunting mortality associated with being CWD positive |
+| |  | |  | |
+|Transmission    | envi. transmission| $\epsilon$ | envi.foi | annual probability from 0 to 1 |
+|                | transmission coefficient | $\beta_{i}$ | beta.f, beta.m | direct transmission |
+|                | male scaling      | $\gamma$ | | male transmission = $\beta_m = \beta_f \gamma$|
+|                | mixing parameter  | $\theta$ | theta | $\theta = 1$ is frequency dependent transmission, $\theta = 0$ is density dependent transmission |
+| |  | |  | |
+|Stochasticity   | vital rate variation  | $\sigma^2$ |repro.var, fawn.sur.var, sur.var, hunt.var| variance for the survival, hunting and reproduction rates |
+| |  | |  | |
+| Intitial conditions | prevalence | | ini.fawn.prev, ini.juv.prev, ini.ad.f.prev, ini.ad.m.prev| prevalence at the start of the simulation.
+| | population size | | n0 | |
+| | # of years | | n.years | # of years to run the simulation |
+
+
+
+
+
+
