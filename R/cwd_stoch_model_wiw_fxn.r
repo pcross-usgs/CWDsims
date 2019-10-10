@@ -49,8 +49,7 @@ cwd_stoch_model_wiw <- function(params) {
   # write the list objects to the local environment
   for (v in 1:length(params)) assign(names(params)[v], params[[v]])
 
-  
-###### check if parameters exist.####
+  ###### check if parameters exist.####
   if(exists("fawn.an.sur")==FALSE){
     message("fawn survival is missing, using default value")
     fawn.an.sur <- 0.6
