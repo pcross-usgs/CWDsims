@@ -1,0 +1,16 @@
+---
+title: "CWDsims shiny app vignette"
+author: "Paul C. Cross"
+date: "2019-10-2"
+output: rmarkdown::html_vignette
+
+vignette: >
+  %\VignetteIndexEntry{CWDsims shiny app vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+In addition to this description page there are four other pages that can be accessed via the tabs above. The deterministic model, as the name implies, includes no stochasticity. Parameters can be entered and changed using the sliders on the left hand side of the screen and any time a parameter is changed the model will automatically re-run and plot the new results. The stochastic model has the same structure as the deterministic model but includes both environmental and demographic stochasticity. Vital rates and hunting mortality vary annually while disease transmission rates are fixed. The distribution of these parameters is shown in the plots section under the Parameters tab. To run or re-run the stochastic model the user must first press the "Run Simulation" button. The Deterministic and Stochastic comparison tabs allow the user to enter two different scenarios and compare the modeled outcomes.
+
+The annual number of individuals a female infects in a fully susceptible population (i.e. the annual direct $R_0$) is entered by the user, while the direct $R_0$ for males and females, which accounts for how long infected individuals are likely to live, is provided as an output.
+
