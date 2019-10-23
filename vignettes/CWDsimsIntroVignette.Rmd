@@ -1,0 +1,246 @@
+---
+title: "CWDsims introduction vignette"
+author: "Paul C. Cross"
+date: "2019-10-2"
+output: rmarkdown::html_vignette
+
+vignette: >
+  %\VignetteIndexEntry{CWDsims introduction vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE, message=FALSE}
+library(knitr)
+library(CWDsims)
+options(continue=" ")
+options(width=60)
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.height = 4,
+                      fig.width = 6)
+```
+
+The `CWDsims` package was created as a decision-support tool for natural resource managers interested in investigating different scenarios associated with chronic wasting disease (CWD). This tool allows the user to enter parameters for deer or elk vital rates, hunting mortality, and disease transmission and the model will plot the total number of individuals, prevalence, age and sex distribution, and how many deaths were natural, hunting or CWD-related. The user can tailor the model to their species and region of interest by modifying the parameters and starting conditions. The `CWDsims` package includes functions to run deterministic and stochastic models, plot the results, and run interactive Shiny apps associated with those CWD model functions.
+
+For information on getting started in R and installing the package, see [Getting Started](#getting-started-in-r). 
+
+For details on how the CWD models are structured and parameterized see the CWDsims Model vignette 
+
+```r
+vignette("CWDsimsModelVignette") # load the introduction
+
+```
+In order to launch the interactive Shiny application on your local machine run the following:
+
+```{r shinyapp, echo=TRUE, eval=FALSE}
+library(CWDsims)
+launchApp("CWDapp")
+```
+
+Some users may be interested in storing output associated with the different models so that more detailed analyses and comparisons can be done. Below is a quick workflow for how to use some of the functions in 'CWDsims'.
+
+```{r workflow, echo=TRUE, eval=TRUE}
+# first create a list of parameter values
+params <- list(fawn.an.sur = 0.6, juv.an.sur = 0.8, ad.an.f.sur = 0.9,
+               ad.an.m.sur = 0.9, fawn.repro = 0, juv.repro = 0.6,
+               ad.repro = 1, hunt.mort.fawn = 0.01, hunt.mort.juv.f = 0.1,
+               hunt.mort.juv.m = 0.1, hunt.mort.ad.f = 0.1, 
+               hunt.mort.ad.m = 0.2, ini.fawn.prev = 0.01, ini.juv.prev = 0.03,
+               ini.ad.f.prev = 0.04, ini.ad.m.prev = 0.04, n.age.cats = 12, 
+               p = 0.43, env.foi = 0, beta.f = 0.08, beta.m = 0.08, theta = 1, 
+               n0 = 1000, n.years = 10, rel.risk = 1.0)
+
+# run the deterministic CWD model
+out <- cwd_det_model(params)
+```
+
+The output from the models is a list containing two dataframes. Counts includes the number of individuals alive for each month of the simulation and their age, sex and disease status. Deaths includes the information about how individuals died (naturally, hunting, or disease) as well as their age and sex. 
+
+```{r outsummary, echo = TRUE, eval = TRUE}
+summary(out)
+head(out$counts)
+head(out$deaths)
+unique(out$deaths$category)
+```
+
+Here "Ht.f" refers to hunting mortality of females. "Ht.m" is for males. "Dt.f" refers to natural mortalities of females, and "CWDt.f" refers to CWD induced mortalities of females. 
+
+### Plots
+
+For plotting purposes we sub-sample the entire monthly time series to include only one month per year to avoid displaying the within-year variation. Total population size is plotted for February. The male:female ratio is sampled in December, and the fawn:doe ratio taken at the end of the biological year in April. Prevalence information is sampled in November. Note that the error bars shown in the stochastic plots are the 5% and 95% quantiles, which may not be estimated well if only a few simulations are run.
+
+Below are a few examples of the plotting functions that are availabe in the package and are used in the shiny application. 
+
+```{r plotting, echo = TRUE, eval = TRUE}
+plot_tots(out$counts)
+plot_prev_time(out$counts)
+plot_prev_age_end(out$counts)
+plot_age_dist(out$counts)
+plot_deaths(out$deaths, percents = TRUE)
+```
+
+### Stochastic models
+
+Stochastic models can be run and plotted in a similar way with some additional variance parameters included. 
+
+```{r stoch, echo = TRUE, eval = TRUE}
+params.stoch <- list(fawn.an.sur = 0.6, juv.an.sur = 0.8, ad.an.f.sur = 0.95, 
+ad.an.m.sur = 0.9, fawn.repro = 0, juv.repro = 0.6, ad.repro = 1, 
+hunt.mort.fawn = 0.01, hunt.mort.juv.f = 0.1, hunt.mort.juv.m = 0.1,
+hunt.mort.ad.f = 0.1, hunt.mort.ad.m = 0.2, ini.fawn.prev = 0.02,
+ini.juv.prev = 0.03, ini.ad.f.prev = 0.04,  ini.ad.m.prev = 0.04,
+n.age.cats = 12,  p = 0.43, env.foi = 0,  beta.f = 0.08,  beta.m = 0.08,
+theta = 1, n0 = 1000, n.years = 10, rel.risk = 1.0, 
+repro.var = 0.005, fawn.sur.var = 0.005, sur.var = 0.005, hunt.var = 0.005)
+
+out.stoch<- cwd_stoch_model(params.stoch)
+
+plot_tots(out.stoch$counts)
+```
+
+To run and plot many stochastic runs use the "cwd_stoch_wrapper" function as well as the stochastic plotting functions.  
+
+```{r stochwrapper, echo = TRUE, eval = TRUE}
+out.wrap <- cwd_stoch_wrapper(params.stoch, nsims = 30)
+
+plot_stoch_tots(out.wrap$counts, all.lines = TRUE, error.bars = c(0.05, 0.95), 
+by.sexage = TRUE)
+
+plot_stoch_deaths(out.wrap$deaths, error.bars = c(0.05, 0.95))
+```
+
+### Who infects who (wiw) models
+
+cwd_det_model_wiw and cwd_stoch_model_wiw are two additional functions that allow for differential transmssion among males, females, from males to females and from females to males. These models require additional transmssion parameters in the params list. 
+
+```{r wiw, echo = TRUE, eval = TRUE}
+params.wiw <- list(fawn.an.sur = 0.6, juv.an.sur = 0.8, ad.an.f.sur = 0.95, 
+ad.an.m.sur = 0.9, fawn.repro = 0, juv.repro = 0.6, ad.repro = 1, 
+hunt.mort.fawn = 0.01, hunt.mort.juv.f = 0.1, hunt.mort.juv.m = 0.1,
+hunt.mort.ad.f = 0.1, hunt.mort.ad.m = 0.2, ini.fawn.prev = 0.02,
+ini.juv.prev = 0.03, ini.ad.f.prev = 0.04,  ini.ad.m.prev = 0.04,
+n.age.cats = 12,  p = 0.43, env.foi = 0,  beta.ff = 0.06, 
+gamma.mm = 2, gamma.mf = 2, gamma.fm = 1,
+theta = 1, n0 = 2000, n.years = 10, rel.risk = 1.0)
+
+out.wiw <- cwd_det_model_wiw(params.wiw)
+plot_tots(out.wiw$counts)
+```
+
+### Model comparisons
+
+Some plotting functions allow for direct comparisons between two different scenarios with either the deterministic or stochastic models.
+
+```{r compare-det, echo = TRUE, eval = TRUE}
+params1 <- list(fawn.an.sur = 0.6, juv.an.sur = 0.8, ad.an.f.sur = 0.9,
+               ad.an.m.sur = 0.9, fawn.repro = 0, juv.repro = 0.6,
+               ad.repro = 1, hunt.mort.fawn = 0.01, hunt.mort.juv.f = 0.1,
+               hunt.mort.juv.m = 0.1, hunt.mort.ad.f = 0.1, 
+               hunt.mort.ad.m = 0.2, ini.fawn.prev = 0.01, ini.juv.prev = 0.03,
+               ini.ad.f.prev = 0.04, ini.ad.m.prev = 0.04, n.age.cats = 12, 
+               p = 0.43, env.foi = 0, beta.f = 0.08, beta.m = 0.08, theta = 1, 
+               n0 = 1000, n.years = 10, rel.risk = 1.0)
+
+# alter the male and female hunting rate for the 2nd scenario
+params2 <- params1
+
+params2$hunt.mort.ad.m <- 0.5
+params2$hunt.mort.ad.f <- 0
+
+out1 <- cwd_det_model(params1)
+out2 <- cwd_det_model(params2)
+
+plot_compare_all_det(out1, out2)
+```
+
+Here scenario A reflects the first set of parameter values and scenario B is the second set of parameter values. 
+
+This can also be done for the stochastic models to show the distribution of potential outcomes. 
+```{r compare-stoch, echo = TRUE, eval = TRUE}
+params.s1 <- list(fawn.an.sur = 0.6, juv.an.sur = 0.8, ad.an.f.sur = 0.95, 
+ad.an.m.sur = 0.9, fawn.repro = 0, juv.repro = 0.6, ad.repro = 1, 
+hunt.mort.fawn = 0.01, hunt.mort.juv.f = 0.1, hunt.mort.juv.m = 0.1,
+hunt.mort.ad.f = 0.1, hunt.mort.ad.m = 0.2, ini.fawn.prev = 0.02,
+ini.juv.prev = 0.03, ini.ad.f.prev = 0.04,  ini.ad.m.prev = 0.04,
+n.age.cats = 12,  p = 0.43, env.foi = 0,  beta.f = 0.08,  beta.m = 0.08,
+theta = 1, n0 = 1000, n.years = 10, rel.risk = 1.0, 
+repro.var = 0.005, fawn.sur.var = 0.005, sur.var = 0.005, hunt.var = 0.005)
+
+# alter the male and female hunting rate for the 2nd scenario
+params.s2 <- params.s1
+params.s2$hunt.mort.ad.m <- 0.5
+params.s2$hunt.mort.ad.f <- 0.01
+
+# use the wrapper for this comparison
+out.s1 <- cwd_stoch_wrapper(params.s1, nsims = 20)
+out.s2 <- cwd_stoch_wrapper(params.s2, nsims = 20)
+
+plot_compare_all_stoch(out.s1, out.s2)
+```
+
+Note that hunting rates cannot currently be 0 in the stochastic models.
+
+### Code and Implementation
+
+Code was written using R version 3.6.1 (R Foundation for Statistical Computing, Vienna, AT; www.R-project.org) and the Shiny package version 1.3.2 (Chang et al. 2017). The other packages used were:
+
+* cowplot (>= 1.0.0)
+* dplyr (>= 0.8.3)
+* forcats (>= 0.4.0)
+* hexSticker (>= 0.4.6)
+* ggplot2 (>= 3.2.1)
+* ggridges (>= 0.5.1)
+* knitr (>= 1.25)
+* magrittr (>= 1.5)
+* markdown (>= 1.1)
+* popbio (>= 2.6)
+* reshape2 (>= 1.4.3)
+* shiny (>= 1.3.2)
+* shinydashboard (>= 0.7.1)
+* tidyr (>= 1.0.0)
+* plyr (>= 1.8.4)
+* stringr (>= 1.4.0)
+* stats (>= 3.6.1)
+
+All of the source code is available at https://github.com/pcross-usgs/CWD-shiny.
+
+### Citation
+This CWD model was developed by the U.S. Geological Survey, Northern Rocky Mountain Science Center, in collaboration with Montana Fish, Wildlife, and Parks.  
+
+The tool may be cited as:  
+Cross, PC and ES Almberg. 2019. CWDsims: An R package for simulating chronic wasting disease scenarios. URL TBD. DOI: 10.5066/P948SF4Q.
+
+*Contact:* For technical assistance or to report outages, please contact pcross@usgs.gov
+
+*Disclaimers*: Although these data have been processed successfully on a computer system at the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data for other purposes, nor on all computer systems, nor shall the act of distribution constitute any such warranty. The USGS or the U.S. Government shall not be held liable for improper or incorrect use of the data described and/or contained herein.
+
+Any use of trade, firm, or product names is for descriptive purposes only and does not imply endorsement by the U.S. Government.
+
+### References
+Chang, W, J Cheng, JJ Allaire, Y Xie, and J McPherson 2017. shiny: Web
+  Application Framework for R. R package version 1.0.5. https://CRAN.R-project.org/package=shiny
+
+Chang, W, and BB Ribeiro 2018. shinydashboard: Create Dashboards with 'Shiny'.
+  R package version 0.7.0. https://CRAN.R-project.org/package=shinydashboard
+
+R Core Team 2018. R: A language and environment for statistical computing. R Foundation for
+  Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
+
+Stubben, C.J. and Milligan, B.G. 2007. Estimating and Analyzing Demographic Models Using the popbio Package in R. Journal of Statistical Software 22:11.
+
+Wickham, H 2017. tidyverse: Easily Install and Load the 'Tidyverse'. R package version
+  1.2.1. https://CRAN.R-project.org/package=tidyverse
+
+Wickham, H 2007. Reshaping Data with the reshape Package. Journal of Statistical Software, 21(12), 1-20.
+URL http://www.jstatsoft.org/v21/i12/.
+
+Wilke, CO 2017. cowplot: Streamlined Plot Theme and Plot Annotations for 'ggplot2'. R
+  package version 0.9.2. https://CRAN.R-project.org/package=cowplot
+
+Wilke, CO 2018. ggridges: Ridgeline Plots in 'ggplot2'. R package version 0.5.1.
+  https://CRAN.R-project.org/package=ggridges
+
+Xie, Y 2018. knitr: A General-Purpose Package for Dynamic Report Generation in R. R package
+  version 1.20.
