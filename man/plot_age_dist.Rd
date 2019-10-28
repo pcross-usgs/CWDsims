@@ -2,18 +2,21 @@
 % Please edit documentation in R/plot_age_dist.r
 \name{plot_age_dist}
 \alias{plot_age_dist}
-\title{Plot the age distribution at the end}
+\title{Plot the age distribution}
 \usage{
 plot_age_dist(dat)
 }
 \arguments{
-\item{dat}{counts provided as output from the CWD model functions}
+\item{dat}{dataframe of counts provided as output from the CWD model 
+functions}
 }
 \value{
-a plot the age distribution at the end point
+a plot the age distribution at the end point. Note that the final 
+age category includes all individuals of that age or more and so may be more 
+females or males of age 12+, for example, than those of age 11.
 }
 \description{
-Plot the age distribution at the end
+Plot the age distribution
 }
 \examples{
 params <- list(fawn.an.sur = 0.6, juv.an.sur = 0.8, ad.an.f.sur = 0.95, 
