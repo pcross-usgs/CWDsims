@@ -71,9 +71,45 @@ sur.var = variance in the juvenile and adult survival rates from year to year.
 hunt.var = variance in the proportion of individuals hunter per category per year.}
 }
 \value{
-A list with 2 dataframes: 1. counts of the # of individuals in the 
-susceptible and infectious categories by over time. 2. deaths--how 
-individuals died over time (hunting, natural or disease).
+A list with 2 dataframes is returned as output: 
+
+1. counts of the # of individuals in the susceptible and infectious 
+categories by over time. 
+
+ Columns include: 
+
+ age (in years)
+
+ month of simulation,
+
+ population = number of individuals
+
+ category: St.f = susceptible females, St.m = susceptible males, Ixt.f = 
+ infectious females in the x category (1-10), Ixt.m = infectious males in the 
+ x infectious category (1-10) 
+
+ sex = female or male
+
+disease = yes or no for susceptible or infectious
+
+  
+2. deaths--how individuals died over time (hunting, natural or disease).
+
+ Columns include: 
+ 
+ age in years, 
+ 
+ month of the simulation, 
+ 
+ population = # of individuals, 
+ 
+ category: Ht.f = hunted females, Ht.m = hunted males, Dt.f = natural 
+ mortality females, Dt.m = natural mortality males, CWDt.f = disease mortality 
+ females, CWDt.m = disease mortality males.  
+   
+ year = year of the simulation
+ 
+ sex
 }
 \description{
 Stochastic monthly age and sex structured model with constant
