@@ -183,16 +183,16 @@ cwd_stoch_model <- function(params) {
     hunt.var <- 0.005
   }
   ###### check parameter values ###
-  if(fawn.an.sur <= 0) warning("fawn survival must be positive")
-  if(fawn.an.sur > 1) warning("fawn survival must be <= 1")
-  if(juv.an.sur <= 0) warning("juvenile survival must be positive")
-  if(juv.an.sur > 1) warning("juvenile survival must be <= 1")
-  if(ad.an.f.sur <= 0) warning("adult female survival must be positive")
-  if(ad.an.f.sur > 1) warning("adult female survival must be <= 1")
+  if(fawn.an.sur < 0) warning("fawn survival must be positive")
+  if(fawn.an.sur > 1) warning("fawn survival must be < 1")
+  if(juv.an.sur < 0) warning("juvenile survival must be positive")
+  if(juv.an.sur > 1) warning("juvenile survival must be < 1")
+  if(ad.an.f.sur < 0) warning("adult female survival must be positive")
+  if(ad.an.f.sur > 1) warning("adult female survival must be < 1")
   
-  if(fawn.repro < 0) warning("fawn.repro must be positive")
-  if(juv.repro <= 0) warning("juv.repro must be >= 0 ")
-  if(ad.repro  <= 0) warning("ad.repro must be >= 0 ")
+  if(fawn.repro <= 0) warning("fawn.repro must be >= 0")
+  if(juv.repro < 0) warning("juv.repro must be > 0 ")
+  if(ad.repro  < 0) warning("ad.repro must be > 0 ")
   
   if(hunt.mort.fawn <= 0) warning("hunt.mort.fawn must be =0")
   if(hunt.mort.fawn >= 1) warning("hunt.mort.fawn must be < 1")
@@ -411,6 +411,7 @@ cwd_stoch_model <- function(params) {
       # are susceptible/infected and the relative hunting risk of S v. I can result in
       # a divide by 0 and NA.  this can also result in more hunting of a category than
       # are available.
+
       hunted.i.f <- round((rel.risk * Iall.f * Ht.f[, t]) /
                             (St.f[, t] + rel.risk * Iall.f))
       hunted.i.m <- round((rel.risk * Iall.m * Ht.m[, t]) /
