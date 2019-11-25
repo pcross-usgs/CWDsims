@@ -1,5 +1,3 @@
-CWDsims <img src="man/figures/logo.png" alt="toxEval" height="150px" align="right" />
-=====================================================================================
 R package to run chronic wasting disease (CWD) models and a Shiny app. This project has moved to  https://code.usgs.gov/usgs/norock/cross_p/cwdsims
 
 
