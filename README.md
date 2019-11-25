@@ -1,26 +1,34 @@
 CWDsims <img src="man/figures/logo.png" alt="toxEval" height="150px" align="right" />
 =====================================================================================
-R package to run chronic wasting disease (CWD) models and a Shiny app
+R package to run chronic wasting disease (CWD) models and a Shiny app. This project has moved to  https://code.usgs.gov/usgs/norock/cross_p/cwdsims
+
 
 This is a repository with R code for an interactive Shiny application of CWD disease models. Currently there are deterministic and stochastic models that are intended to model hunting scenarios for a 5 to 10 year time horizon. The models are sex and age structured with direct and indirect transmission. 
 
 ### Installation ###
 
-Install from GitHub using the `devtools` packages:
+To use this package, you should be using R 3.4+. You can install the package from GitHub using the `remotes` package. To build the vignettes (long-form documentation) included with the package, you'll need the `knitr` and `markdown` libraries installed.
+
+To install all 3 packages:
 
 ```r
-# install devtools if you don't have it already (otherwise skip next line)
-install.packages("devtools")
-
-# load the library
-library(devtools)
+install.packages(c("remotes", "knitr", "rmarkdown"))
 ```
-Note some Mac users may need to first install xQuartz (https://www.xquartz.org). Next install "CWDsims" from GitHub.  
+
+Then to install the stable, approved package with vignettes:
 
 ```r
-# install "CWDsims" from github
-install_github("pcross-usgs/CWDsims", build_vignettes = TRUE)
+remotes::install_git("https://code.usgs.gov/usgs/norock/cross_p/cwdsims", ref = "v0.1.1", build_vignettes = TRUE, build_manual = TRUE)
 ```
+
+Or to install the most recent development version:
+
+```r
+remotes::install_github("https://code.usgs.gov/usgs/norock/cross_p/cwdsims", build_vignettes = TRUE, build_manual = TRUE)
+```
+
+Note some Mac users may need to first install xQuartz (https://www.xquartz.org).
+
 This may prompt you to update some of the necessary packages. Press "1" to update all packages. In some cases, the compilation of the *later* package has failed. If this occurs, re-run the install_github command above and when prompted
 
 > Do you want to install from sources the package which needs compilation? (Yes/no/cancel)
@@ -46,7 +54,7 @@ For a list of the available functions:
 
 Please consider reporting bugs and asking questions on the Issues page:
 
-[https://github.com/pcross-usgs/CWDsims/issues](https://github.com/pcross-usgs/CWDsims/issues)
+[https://code.usgs.gov/usgs/norock/cross_p/cwdsims/issues](https://code.usgs.gov/usgs/norock/cross_p/cwdsims/issues)
 
 
 Follow `@USGS_R` on Twitter for updates on USGS R packages:
@@ -63,7 +71,7 @@ citation(package = "CWDsims")
 ># 
 >#   Cross, P.C. and E.S. Almberg. 2019. CWDsims: 
 >#   An R package for simulating chronic wasting
->#   disease scenarios, doi:10.5066/P948SF4Q
+>#   disease scenarios, doi.org/10.5066/P9QZTTLY
 ># 
 ># A BibTeX entry for LaTeX users is
 ># 
@@ -73,19 +81,11 @@ citation(package = "CWDsims")
 >#     scenarios},
 >#     publisher = {U.S. Geological Survey},
 >#     address = {Reston, VA},
->#     version = {0.1.0},
+>#     version = {0.1.1},
 >#     institution = {U.S. Geological Survey},
 >#     year = {2019},
->#     url = {https://github.com/pcross-usgs/CWDsims/issues},
+>#     url = {https://code.usgs.gov/usgs/norock/cross_p/cwdsims},
 >#   }
 ```
 
-### Disclaimer ###
-
-This software is in the public domain because it contains materials that originally came from the U.S. Geological Survey, an agency of the United States Department of Interior. For more information, see the [official USGS copyright policy](https://www2.usgs.gov/visual-id/credit_usgs.html#copyright)
-
-Although this software program has been used by the U.S. Geological Survey (USGS), no warranty, expressed or implied, is made by the USGS or the U.S. Government as to the accuracy and functioning of the program and related program material nor shall the fact of distribution constitute any such warranty, and no responsibility is assumed by the USGS in connection therewith.
-
-This software is provided "AS IS."
-
-[![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)
+This R package relates to USGS IPDS #IP-108402. 
